@@ -33,10 +33,12 @@ export default function Navbar() {
     }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px", height: 64, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
 
+        {/* Logo */}
         <a href="#hero" style={{ textDecoration: "none", marginLeft: "-110px", marginTop: "20px" }}>
           <img src="/logogym.png" alt="Abdominal Gym" style={{ height: 250, objectFit: "contain" }} />
         </a>
 
+        {/* Desktop links */}
         {!isMobile && (
           <div style={{ display: "flex", gap: 2 }}>
             {links.map(l => (
@@ -52,6 +54,7 @@ export default function Navbar() {
           </div>
         )}
 
+        {/* Desktop CTA */}
         {!isMobile && (
           <a href="#contact" style={{
             background: "#fff", color: "#080808",
@@ -63,6 +66,7 @@ export default function Navbar() {
           >Daftar</a>
         )}
 
+        {/* Hamburger */}
         {isMobile && (
           <button onClick={() => setOpen(!open)} style={{
             display: "flex", flexDirection: "column", gap: 5,
@@ -75,6 +79,7 @@ export default function Navbar() {
         )}
       </div>
 
+      {/* Mobile menu dropdown */}
       {open && isMobile && (
         <div style={{ background: "rgba(8,8,8,0.97)", borderTop: "1px solid #1a1a1a", padding: "12px 24px 20px" }}>
           {links.map(l => (
