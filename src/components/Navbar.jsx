@@ -26,7 +26,7 @@ export default function Navbar() {
   return (
     <nav style={{
       position: "fixed", top: 0, left: 0, right: 0, zIndex: 999,
-      background: scrolled || open ? "rgba(8,8,8,0.97)" : "transparent",
+      background: scrolled || open ? "rgba(30,30,30,0.92)" : "transparent",
       borderBottom: scrolled ? "1px solid #222" : "1px solid transparent",
       backdropFilter: scrolled || open ? "blur(14px)" : "none",
       transition: "all 0.35s ease",
@@ -81,7 +81,7 @@ export default function Navbar() {
 
       {/* Mobile menu dropdown */}
       {open && isMobile && (
-        <div style={{ background: "rgba(8,8,8,0.97)", borderTop: "1px solid #1a1a1a", padding: "12px 24px 20px" }}>
+        <div style={{ background: "rgba(30,30,30,0.92)", borderTop: "1px solid #1a1a1a", padding: "12px 24px 20px" }}>
           {links.map(l => (
             <a key={l.label} href={l.href} onClick={() => setOpen(false)} style={{
               display: "block", padding: "14px 0",

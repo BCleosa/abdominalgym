@@ -21,11 +21,11 @@ export default function Pricing() {
   const [tab, setTab] = useState("member");
 
   return (
-    <section id="pricing" style={{ background: "#0a0a0a", padding: "90px 0" }}>
+    <section id="pricing" style={{ background: "#0a0a0a", padding: "50px 0 40px" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 28px" }}>
 
         {/* Header */}
-        <div style={{ marginBottom: 44 }}>
+        <div style={{ marginBottom: 28 }}>
           <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.65rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "#555", marginBottom: 10 }}>Harga & Paket</p>
           <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(2rem, 5vw, 3.5rem)", letterSpacing: "-0.02em", color: "#f0ede8", lineHeight: 1 }}>
             Choose Your Plan <br />
@@ -33,8 +33,8 @@ export default function Pricing() {
         </div>
 
         {/* Tab toggle */}
-        <div style={{ display: "flex", gap: 0, marginBottom: 32, borderBottom: "1px solid #1e1e1e" }}>
-          {[["member","Membership"],["pt","Personal Training"]].map(([id, label]) => (
+        <div style={{ display: "flex", gap: 0, marginBottom: 20, borderBottom: "1px solid #1e1e1e" }}>
+          {[["member","Membership"],["pt","Personal Trainer"]].map(([id, label]) => (
             <button key={id} onClick={() => setTab(id)} style={{
               background: "none", border: "none",
               borderBottom: tab === id ? "2px solid #fff" : "2px solid transparent",
@@ -129,7 +129,7 @@ export default function Pricing() {
           </div>
         )}
 
-        <p style={{ marginTop: 24, fontSize: "0.78rem", color: "#444", fontWeight: 300 }}>
+        <p style={{ marginTop: 16, fontSize: "0.78rem", color: "#444", fontWeight: 300 }}>
           * Harga belum termasuk biaya pendaftaran. Info lebih lanjut hubungi <a href="tel:+6282324720045" style={{ color: "#666", textDecoration: "none" }}>+62 823 2472 0045</a>
         </p>
       </div>

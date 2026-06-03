@@ -5,6 +5,7 @@ import Pricing from "./components/Pricing";
 import TrainerSection from "./components/TrainerSection";
 import ContactSection from "./components/ContactSection";
 import Footer from "./components/Footer";
+import GallerySection from "./components/GallerySection";
 import AdminPanel from "./pages/AdminPanel";
 import TrainerPortal from "./pages/TrainerPortal";
 import "./index.css";
@@ -20,6 +21,7 @@ export default function App() {
       <Navbar />
       <Hero />
       <Pricing />
+      <GallerySection />
       <TrainerSection />
       <ContactSection />
       <Footer

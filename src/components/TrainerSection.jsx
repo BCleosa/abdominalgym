@@ -18,13 +18,13 @@ const trainers = [
 
 export default function TrainerSection() {
   return (
-    <section id="trainers" style={{ background: "#080808", padding: "90px 0" }}>
+    <section id="trainers" style={{ background: "#0a0a0a", padding: "50px 0 40px" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 28px" }}>
 
-        <div style={{ marginBottom: 44 }}>
+        <div style={{ marginBottom: 28 }}>
           <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.65rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "#555", marginBottom: 10 }}>Tim Pelatih</p>
           <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(2rem, 5vw, 3.5rem)", letterSpacing: "-0.02em", color: "#f0ede8", lineHeight: 1 }}>
-            Your Personal Coach <br />
+            Your Personal Coach<br />
           </h2>
         </div>
 
@@ -34,7 +34,7 @@ export default function TrainerSection() {
           ))}
         </div>
 
-        <div style={{ marginTop: 32, padding: "20px 24px", background: "#0f0f0f", border: "1px solid #1e1e1e", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
+        <div style={{ marginTop: 20, padding: "20px 24px", background: "#0f0f0f", border: "1px solid #1e1e1e", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
           <p style={{ color: "#555", fontSize: "0.825rem", fontWeight: 300 }}>
             Bisa pilih pelatih sesuai preferensimu — pria atau wanita.
           </p>

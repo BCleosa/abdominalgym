@@ -15,10 +15,10 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" style={{ background: "#0a0a0a", padding: "90px 0" }}>
+    <section id="contact" style={{ background: "#0a0a0a", padding: "50px 0 40px" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 28px" }}>
 
-        <div style={{ marginBottom: 48 }}>
+        <div style={{ marginBottom: 28 }}>
           <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.65rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "#555", marginBottom: 10 }}>Hubungi Kami</p>
           <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(2rem, 5vw, 3.5rem)", letterSpacing: "-0.02em", color: "#f0ede8", lineHeight: 1 }}>
             Join Us Today <br />
