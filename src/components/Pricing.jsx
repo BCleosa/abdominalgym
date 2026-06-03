@@ -21,7 +21,7 @@ export default function Pricing() {
   const [tab, setTab] = useState("member");
 
   return (
-    <section id="pricing" style={{ background: "#0a0a0a", padding: "50px 0 40px" }}>
+    <section id="pricing" style={{ background: "#0a0a0a", padding: "50px 0 20px" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 28px" }}>
 
         {/* Header */}

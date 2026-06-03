@@ -54,7 +54,7 @@ export default function GallerySection() {
       id="gallery"
       style={{
         background: "#080808",
-        padding: "50px 0 20px",
+        padding: "0",
         overflow: "hidden",
       }}
     >
