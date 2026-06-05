@@ -3,12 +3,12 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --black: #080808;
-  --dark: #0f0f0f;
-  --dark2: #161616;
-  --dark3: #1e1e1e;
-  --dark4: #252525;
-  --gray-dark: #2a2a2a;
+  --black: #1c1c1c;
+  --dark: #242424;
+  --dark2: #2c2c2c;
+  --dark3: #343434;
+  --dark4: #3c3c3c;
+  --gray-dark: #404040;
   --gray: #444;
   --gray-mid: #777;
   --gray-light: #aaa;

@@ -35,7 +35,7 @@ export default function Navbar() {
 
         {/* Logo */}
         <a href="#hero" style={{ textDecoration: "none", marginLeft: "-110px", marginTop: "20px" }}>
-          <img src="/logogym.png" alt="Abdominal Gym" style={{ height: 250, objectFit: "contain" }} />
+          <img src="/logogym.png" alt="Abdominal Gym" style={{ height: 200, objectFit: "contain" }} />
         </a>
 
         {/* Desktop links */}

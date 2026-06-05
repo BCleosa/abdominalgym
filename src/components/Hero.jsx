@@ -89,9 +89,9 @@ export default function Hero() {
         {/* Stats */}
         <div style={{ ...fade(0.5), display: "flex", gap: 0, paddingTop: 28, borderTop: "1px solid #1e1e1e", flexWrap: "wrap" }}>
           {[
-            { v: "50+", l: "Peralatan" },
+            { v: "10+", l: "Peralatan" },
             { v: "3", l: "Pelatih" },
-            { v: "07–22", l: "Jam Buka" },
+            { v: "07.00–22.00", l: "Jam Buka" },
             { v: "Ags 2024", l: "Berdiri" },
           ].map((s, i, a) => (
             <div key={i} style={{ paddingRight: 28, marginRight: 28, borderRight: i < a.length - 1 ? "1px solid #1e1e1e" : "none", marginBottom: 8 }}>
