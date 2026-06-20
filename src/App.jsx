@@ -6,30 +6,32 @@ import TrainerSection from "./components/TrainerSection";
 import ContactSection from "./components/ContactSection";
 import Footer from "./components/Footer";
 import GallerySection from "./components/GallerySection";
-import AdminPanel from "./pages/AdminPanel";
+import Testimonials from "./components/Testimonials";
+import AdminPanelFirebase from "./pages/AdminPanelFirebase";
 import TrainerPortal from "./pages/TrainerPortal";
 import "./index.css";
-import Testimonials from "./components/Testimonials";
 
 export default function App() {
   const [page, setPage] = useState("home");
 
-  if (page === "admin") return <AdminPanel onBack={() => setPage("home")} />;
-  if (page === "trainer") return <TrainerPortal onBack={() => setPage("home")} />;
+  // Akses admin via URL hash
+  if (typeof window !== "undefined") {
+    if (window.location.hash === "#/admin" && page === "home") setPage("admin");
+  }
+
+  if (page === "admin") return <AdminPanelFirebase onBack={() => { window.location.hash = ""; setPage("home"); }} />;
+  if (page === "trainer") return <TrainerPortal onBack={() => { window.location.hash = ""; setPage("home"); }} />;
 
   return (
     <div>
       <Navbar />
       <Hero />
-      <Pricing />
       <GallerySection />
+      <Pricing />
       <TrainerSection />
       <Testimonials />
       <ContactSection />
-      <Footer
-        onAdmin={() => setPage("admin")}
-        onTrainer={() => setPage("trainer")}
-      />
+      <Footer />
 
       {/* Tombol WA floating */}
       <a href="https://wa.me/6282324720045?text=Halo%20Abdominal%20Gym!%20Saya%20ingin%20tanya%20informasi."

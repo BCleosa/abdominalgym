@@ -50,7 +50,7 @@ export default function MemberPage() {
 
   const filtered = members.filter(m => m.nama?.toLowerCase().includes(search.toLowerCase()) || m.noHp?.includes(search));
 
-  const inputStyle = { width: "100%", background: "#1a1a1a", border: "1px solid #222", color: "#f0ede8", fontFamily: "var(--font-body)", fontSize: "0.875rem", padding: "9px 12px", outline: "none" };
+  const inputStyle = { width: "100%", background: "#fff", border: "1px solid #ddd", color: "#1a1a1a", fontFamily: "var(--font-body)", fontSize: "0.875rem", padding: "9px 12px", outline: "none" };
   const labelStyle = { display: "block", fontFamily: "var(--font-mono)", fontSize: "0.6rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "#444", marginBottom: 5 };
 
   return (
@@ -62,9 +62,9 @@ export default function MemberPage() {
           { label: "Aktif", val: members.filter(m => m.status === "aktif").length, color: "#4caf50" },
           { label: "Tidak Aktif", val: members.filter(m => m.status !== "aktif").length, color: "#f44336" },
         ].map((s, i) => (
-          <div key={i} style={{ background: "#141414", border: "1px solid #1e1e1e", padding: "14px 20px", display: "flex", gap: 10, alignItems: "center" }}>
-            <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "1.4rem", color: s.color }}>{s.val}</span>
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.65rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "#444" }}>{s.label}</span>
+          <div key={i} style={{ background: "#f0f0f0", border: "1px solid #e0e0e0", padding: "14px 20px", display: "flex", gap: 10, alignItems: "center" }}>
+            <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "1.4rem", color: s.color === "#f0ede8" ? "#1a1a1a" : s.color }}>{s.val}</span>
+            <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.65rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "#888" }}>{s.label}</span>
           </div>
         ))}
       </div>
@@ -83,7 +83,7 @@ export default function MemberPage() {
       </div>
 
       {/* Table */}
-      <div style={{ background: "#111", border: "1px solid #1e1e1e", overflow: "auto" }}>
+      <div style={{ background: "#fff", border: "1px solid #e0e0e0", overflow: "auto" }}>
         {loading ? (
           <div style={{ padding: 40, textAlign: "center", color: "#444", fontFamily: "var(--font-mono)", fontSize: "0.75rem" }}>Memuat data...</div>
         ) : (
@@ -91,7 +91,7 @@ export default function MemberPage() {
             <thead>
               <tr>
                 {["#", "Nama", "No HP", "Paket", "Tgl Mulai", "Tgl Akhir", "Status", "Aksi"].map(h => (
-                  <th key={h} style={{ background: "#1a1a1a", color: "#555", fontFamily: "var(--font-mono)", fontSize: "0.65rem", letterSpacing: "0.1em", textTransform: "uppercase", padding: "10px 14px", textAlign: "left", borderBottom: "1px solid #f0ede8" }}>{h}</th>
+                  <th key={h} style={{ background: "#e8e8e8", color: "#666", fontFamily: "var(--font-mono)", fontSize: "0.65rem", letterSpacing: "0.1em", textTransform: "uppercase", padding: "10px 14px", textAlign: "left", borderBottom: "1px solid #f0ede8" }}>{h}</th>
                 ))}
               </tr>
             </thead>
@@ -100,12 +100,12 @@ export default function MemberPage() {
                 <tr><td colSpan={8} style={{ padding: 32, textAlign: "center", color: "#333", fontFamily: "var(--font-mono)", fontSize: "0.75rem" }}>Tidak ada data</td></tr>
               ) : filtered.map((m, i) => (
                 <tr key={m.id} style={{ borderBottom: "1px solid #1a1a1a" }}
-                  onMouseOver={e => e.currentTarget.style.background = "#141414"}
+                  onMouseOver={e => e.currentTarget.style.background = "#f5f5f5"}
                   onMouseOut={e => e.currentTarget.style.background = "transparent"}
                 >
                   <td style={{ padding: "10px 14px", color: "#333" }}>{i + 1}</td>
                   <td style={{ padding: "10px 14px" }}>
-                    <div style={{ fontWeight: 600, color: "#f0ede8" }}>{m.nama}</div>
+                    <div style={{ fontWeight: 600, color: "#1a1a1a" }}>{m.nama}</div>
                     <div style={{ fontSize: "0.75rem", color: "#444" }}>{m.jenisKelamin}</div>
                   </td>
                   <td style={{ padding: "10px 14px", color: "#888" }}>{m.noHp}</td>
@@ -113,7 +113,7 @@ export default function MemberPage() {
                   <td style={{ padding: "10px 14px", color: "#888", fontSize: "0.8rem" }}>{m.tanggalMulai}</td>
                   <td style={{ padding: "10px 14px", color: "#888", fontSize: "0.8rem" }}>{m.tanggalAkhir}</td>
                   <td style={{ padding: "10px 14px" }}>
-                    <span style={{ background: m.status === "aktif" ? "#1a3a1a" : "#3a1a1a", color: m.status === "aktif" ? "#4caf50" : "#f44336", fontFamily: "var(--font-mono)", fontSize: "0.65rem", padding: "2px 8px", borderRadius: 2 }}>
+                    <span style={{ background: m.status === "aktif" ? "#e8f5e9" : "#ffebee", color: m.status === "aktif" ? "#2e7d32" : "#c62828", fontFamily: "var(--font-mono)", fontSize: "0.65rem", padding: "3px 10px", borderRadius: 20, fontWeight: 600, border: `1px solid ${m.status === "aktif" ? "#a5d6a7" : "#ef9a9a"}` }}>
                       {m.status}
                     </span>
                   </td>

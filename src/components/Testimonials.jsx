@@ -60,8 +60,7 @@ export default function Testimonials() {
               Kata Mereka
             </p>
             <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(1.8rem, 4vw, 3rem)", letterSpacing: "-0.02em", color: "#f0ede8", lineHeight: 1, margin: 0 }}>
-              Testimoni<br />
-              <span style={{ color: "rgba(240,237,232,0.35)", fontStyle: "italic" }}>Member Kami.</span>
+              Testimoni dari Member Kami <br />
             </h2>
           </div>
           {/* Rating summary */}
@@ -69,7 +68,7 @@ export default function Testimonials() {
             <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "2.5rem", color: "#f0ede8", lineHeight: 1 }}>4.8</div>
             <Stars count={5} />
             <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.6rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "#555", marginTop: 4 }}>
-              65 ulasan · Google Maps
+              66 ulasan · Google Maps
             </div>
           </div>
         </div>
