@@ -91,7 +91,7 @@ export default function GallerySection() {
   };
 
   return (
-    <section id="gallery" style={{ background: "#0a0a0a", padding: isMobile ? "40px 0 30px" : "50px 0 40px" }}>
+    <section id="gallery" style={{ background: "transparent", padding: isMobile ? "40px 0 30px" : "50px 0 40px" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 20px" }}>
 
         {/* Heading */}

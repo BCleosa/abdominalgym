@@ -3,7 +3,6 @@ import { useState } from "react";
 const fmt = n => "Rp " + n.toLocaleString("id-ID");
 
 const membership = [
-  { id: "INS", label: "Insidentil",  dur: "1 Hari",    price: 30000 },
   { id: "MON", label: "Monthly",     dur: "1 Bulan",   price: 160000 },
   { id: "SIL", label: "Silver",      dur: "3 Bulan",   price: 420000 },
   { id: "GLD", label: "Gold",        dur: "6 Bulan",   price: 730000 },
@@ -21,7 +20,7 @@ export default function Pricing() {
   const [tab, setTab] = useState("member");
 
   return (
-    <section id="pricing" style={{ background: "#0a0a0a", padding: "50px 0 20px" }}>
+    <section id="pricing" style={{ background: "transparent", padding: "50px 0 20px" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 28px" }}>
 
         {/* Header */}

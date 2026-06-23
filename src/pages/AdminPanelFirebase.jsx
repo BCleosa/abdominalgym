@@ -7,6 +7,7 @@ import KeuanganPage from "./admin/firebase/KeuanganPage";
 import AbsenPage from "./admin/firebase/AbsenPage";
 import StokPage from "./admin/firebase/StokPage";
 import KehadiranPage from "./admin/firebase/KehadiranPage";
+import NotificationBell from "../components/NotificationBell";
 
 const menus = [
   { id: "dashboard", label: "Dashboard", icon: "▪" },
@@ -51,14 +52,16 @@ export default function AdminPanelFirebase({ onBack }) {
 
       {/* Sidebar */}
       <aside style={{
-        width: 220, background: "linear-gradient(180deg, #0a0a0a 0%, #0D3870 100%)", borderRight: "1px solid #1e2a3a",
+        width: 220,
+        background: "linear-gradient(180deg, #0a0a0a 0%, #3B3664 50%, #405FFA 100%)",
+        borderRight: "1px solid #1e2a3a",
         display: "flex", flexDirection: "column",
         position: "fixed", top: 0, left: 0, bottom: 0, zIndex: 100,
       }}>
-        {/* Logo */}
-        <div style={{ padding: "20px 16px", borderBottom: "1px solid #1e1e1e", background: "#111" }}>
+        {/* Logo — hitam dominan di atas, fade halus ke gradasi sidebar di bagian bawahnya */}
+        <div style={{ padding: "20px 16px", background: "linear-gradient(180deg, #0a0a0a 0%, #0a0a0a 40%, rgba(10,10,10,0.85) 55%, rgba(10,10,10,0.5) 70%, rgba(10,10,10,0.15) 88%, rgba(10,10,10,0) 100%)" }}>
           <img src="/logogym.png" alt="Abdominal Gym" style={{ height: 100, objectFit: "contain", maxWidth: "100%" }} />
-          <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", letterSpacing: "0.2em", color: "#FFFFF", marginTop: 6, textTransform: "uppercase" }}>Admin Panel</div>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", letterSpacing: "0.2em", color: "#fff", marginTop: 6, textTransform: "uppercase" }}>Admin Panel</div>
         </div>
 
         {/* Nav */}
@@ -68,33 +71,35 @@ export default function AdminPanelFirebase({ onBack }) {
               style={{
                 width: "100%", display: "flex", alignItems: "center", gap: 10,
                 padding: "10px 16px",
-                background: activePage === m.id ? "#2a2a2a" : "none",
+                background: activePage === m.id ? "rgba(220,220,220,0.22)" : "none",
+                boxShadow: activePage === m.id ? "0 2px 10px rgba(0,0,0,0.2)" : "none",
                 border: "none",
-                borderLeft: activePage === m.id ? "2px solid #fff" : "2px solid transparent",
-                color: activePage === m.id ? "#ffffff" : "#666",
+                borderLeft: activePage === m.id ? "2px solid #D9FCED" : "2px solid transparent",
+                color: activePage === m.id ? "#D9FCED" : "rgba(255,255,255,0.85)",
+                textShadow: "0 1px 3px rgba(0,0,0,0.6)",
                 fontFamily: "var(--font-body)", fontWeight: activePage === m.id ? 600 : 400,
                 fontSize: "0.825rem", cursor: "pointer", transition: "all 0.2s", textAlign: "left",
               }}
-              onMouseOver={e => { if (activePage !== m.id) e.currentTarget.style.color = "#aaa"; }}
-              onMouseOut={e => { if (activePage !== m.id) e.currentTarget.style.color = "#666"; }}
+              onMouseOver={e => { if (activePage !== m.id) e.currentTarget.style.color = "#fff"; }}
+              onMouseOut={e => { if (activePage !== m.id) e.currentTarget.style.color = "rgba(255,255,255,0.85)"; }}
             >
-              <span style={{ fontSize: "0.6rem", color: activePage === m.id ? "#fff" : "#444" }}>{m.icon}</span>
+              <span style={{ fontSize: "0.6rem", color: activePage === m.id ? "#D9FCED" : "rgba(255,255,255,0.6)" }}>{m.icon}</span>
               {m.label}
             </button>
           ))}
         </nav>
 
         {/* Bottom */}
-        <div style={{ padding: "12px 16px", borderTop: "1px solid #1e1e1e", display: "flex", flexDirection: "column", gap: 8 }}>
+        <div style={{ padding: "12px 16px", borderTop: "1px solid rgba(255,255,255,0.15)", display: "flex", flexDirection: "column", gap: 8 }}>
           <button onClick={onBack}
-            style={{ background: "none", border: "1px solid #1e1e1e", color: "#555", fontFamily: "var(--font-mono)", fontSize: "0.6rem", letterSpacing: "0.1em", textTransform: "uppercase", padding: "8px", cursor: "pointer", transition: "all 0.2s" }}
-            onMouseOver={e => { e.currentTarget.style.borderColor = "#555"; e.currentTarget.style.color = "#aaa"; }}
-            onMouseOut={e => { e.currentTarget.style.borderColor = "#1e1e1e"; e.currentTarget.style.color = "#555"; }}
+            style={{ background: "rgba(0,0,0,0.2)", border: "1px solid rgba(255,255,255,0.25)", color: "rgba(255,255,255,0.85)", textShadow: "0 1px 2px rgba(0,0,0,0.5)", fontFamily: "var(--font-mono)", fontSize: "0.6rem", letterSpacing: "0.1em", textTransform: "uppercase", padding: "8px", cursor: "pointer", transition: "all 0.2s" }}
+            onMouseOver={e => { e.currentTarget.style.borderColor = "#FDECEF"; e.currentTarget.style.color = "#FDECEF"; }}
+            onMouseOut={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.25)"; e.currentTarget.style.color = "rgba(255,255,255,0.85)"; }}
           >← Website</button>
           <button onClick={handleLogout}
-            style={{ background: "none", border: "1px solid #1e1e1e", color: "#555", fontFamily: "var(--font-mono)", fontSize: "0.6rem", letterSpacing: "0.1em", textTransform: "uppercase", padding: "8px", cursor: "pointer", transition: "all 0.2s" }}
+            style={{ background: "rgba(0,0,0,0.2)", border: "1px solid rgba(255,255,255,0.25)", color: "rgba(255,255,255,0.85)", textShadow: "0 1px 2px rgba(0,0,0,0.5)", fontFamily: "var(--font-mono)", fontSize: "0.6rem", letterSpacing: "0.1em", textTransform: "uppercase", padding: "8px", cursor: "pointer", transition: "all 0.2s" }}
             onMouseOver={e => { e.currentTarget.style.borderColor = "#f44336"; e.currentTarget.style.color = "#f44336"; }}
-            onMouseOut={e => { e.currentTarget.style.borderColor = "#1e1e1e"; e.currentTarget.style.color = "#555"; }}
+            onMouseOut={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.25)"; e.currentTarget.style.color = "rgba(255,255,255,0.85)"; }}
           >Keluar</button>
         </div>
       </aside>
@@ -110,8 +115,11 @@ export default function AdminPanelFirebase({ onBack }) {
               {menus.find(m => m.id === activePage)?.label}
             </div>
           </div>
-          <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.65rem", color: "#888" }}>
-            {new Date().toLocaleDateString("id-ID", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}
+          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.65rem", color: "#888" }}>
+              {new Date().toLocaleDateString("id-ID", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}
+            </div>
+            <NotificationBell />
           </div>
         </div>
         {renderPage()}

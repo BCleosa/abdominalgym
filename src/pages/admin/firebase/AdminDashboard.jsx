@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { db } from "../../../firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { api } from "../../../utils/api";
 
 const fmt = n => "Rp " + Number(n).toLocaleString("id-ID");
 
@@ -17,18 +16,13 @@ export default function AdminDashboard() {
     const fetchAll = async () => {
       setLoading(true);
       try {
-        const [memberSnap, kehadiranSnap, pelatihSnap, stokSnap, keuanganSnap] = await Promise.all([
-          getDocs(collection(db, "members")),
-          getDocs(collection(db, "kehadiran")),
-          getDocs(collection(db, "pelatih")),
-          getDocs(collection(db, "stok")),
-          getDocs(collection(db, "keuangan")),
+        const [members, kehadiran, pelatihData, stok, keu] = await Promise.all([
+          api.get("/member"),
+          api.get("/kehadiran"),
+          api.get("/pelatih"),
+          api.get("/stok/barang"),
+          api.get("/keuangan"),
         ]);
-
-        const members = memberSnap.docs.map(d => d.data());
-        const kehadiran = kehadiranSnap.docs.map(d => ({ id: d.id, ...d.data() }));
-        const stok = stokSnap.docs.map(d => d.data());
-        const keu = keuanganSnap.docs.map(d => ({ id: d.id, ...d.data() }));
 
         const bulanIni = new Date().toISOString().slice(0, 7);
         const keuBulanIni = keu.filter(k => k.tanggal?.startsWith(bulanIni));
@@ -37,7 +31,7 @@ export default function AdminDashboard() {
           members: members.length,
           aktif: members.filter(m => m.status === "aktif").length,
           hadirHariIni: kehadiran.filter(k => k.tanggal === today).length,
-          pelatih: pelatihSnap.docs.length,
+          pelatih: pelatihData.length,
           stokHabis: stok.filter(s => s.stok === 0).length,
         });
 

@@ -4,9 +4,9 @@ import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCvZdxCUp6N804qVWUvSbCjA42a4IoJjKY",
-  authDomain: "abdominalgym-ec32f.firebaseapp.com",
-  projectId: "abdominalgym-ec32f",
-  storageBucket: "abdominalgym-ec32f.firebasestorage.app",
+  authDomain: "abdominalgym-kudus.firebaseapp.com",
+  projectId: "abdominalgym-kudus",
+  storageBucket: "abdominalgym-kudus.firebasestorage.app",
   messagingSenderId: "776059583001",
   appId: "1:776059583001:web:50c37354a4fbfa852d8888",
 };

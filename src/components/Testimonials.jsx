@@ -50,7 +50,7 @@ export default function Testimonials() {
   const visible = testimonials.slice(current * perPage, current * perPage + perPage);
 
   return (
-    <section id="testimonials" style={{ background: "#141414", padding: "70px 0" }}>
+    <section id="testimonials" style={{ background: "transparent", padding: "70px 0" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 28px" }}>
 
         {/* Header */}

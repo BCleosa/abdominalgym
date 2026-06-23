@@ -18,7 +18,7 @@ const trainers = [
 
 export default function TrainerSection() {
   return (
-    <section id="trainers" style={{ background: "#0a0a0a", padding: "50px 0 20px" }}>
+    <section id="trainers" style={{ background: "transparent", padding: "50px 0 20px" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 28px" }}>
 
         <div style={{ marginBottom: 28 }}>

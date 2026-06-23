@@ -9,41 +9,45 @@ import GallerySection from "./components/GallerySection";
 import Testimonials from "./components/Testimonials";
 import AdminPanelFirebase from "./pages/AdminPanelFirebase";
 import TrainerPortal from "./pages/TrainerPortal";
+import OwnerPanel from "./pages/OwnerPanel";
+import PelatihPanel from "./pages/PelatihPanel";
+import MemberPanel from "./pages/MemberPanel";
 import "./index.css";
 
 export default function App() {
   const [page, setPage] = useState("home");
 
-  // Akses admin via URL hash
   if (typeof window !== "undefined") {
     if (window.location.hash === "#/admin" && page === "home") setPage("admin");
+    if (window.location.hash === "#/owner" && page === "home") setPage("owner");
+    if (window.location.hash === "#/pelatih" && page === "home") setPage("pelatih");
+    if (window.location.hash === "#/member" && page === "home") setPage("member");
   }
 
   if (page === "admin") return <AdminPanelFirebase onBack={() => { window.location.hash = ""; setPage("home"); }} />;
   if (page === "trainer") return <TrainerPortal onBack={() => { window.location.hash = ""; setPage("home"); }} />;
+  if (page === "owner") return <OwnerPanel onBack={() => { window.location.hash = ""; setPage("home"); }} />;
+  if (page === "pelatih") return <PelatihPanel onBack={() => { window.location.hash = ""; setPage("home"); }} />;
+  if (page === "member") return <MemberPanel onBack={() => { window.location.hash = ""; setPage("home"); }} />;
 
   return (
     <div>
       <Navbar />
       <Hero />
-      <GallerySection />
-      <Pricing />
-      <TrainerSection />
-      <Testimonials />
-      <ContactSection />
+      <div style={{
+        background: "linear-gradient(180deg, #0a0a0a 0%, #1c1c1c 14%, #292929 30%, #1a1a1a 48%, #0a0a0a 62%, #1e1e1e 80%, #0a0a0a 100%)",
+      }}>
+        <GallerySection />
+        <Pricing />
+        <TrainerSection />
+        <Testimonials />
+        <ContactSection />
+      </div>
       <Footer />
 
-      {/* Tombol WA floating */}
       <a href="https://wa.me/6282324720045?text=Halo%20Abdominal%20Gym!%20Saya%20ingin%20tanya%20informasi."
         target="_blank" rel="noopener"
-        style={{
-          position: "fixed", bottom: 24, right: 24, zIndex: 998,
-          background: "#25d366", color: "#fff",
-          width: 56, height: 56, borderRadius: "50%",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          boxShadow: "0 4px 20px rgba(37,211,102,0.4)",
-          textDecoration: "none", transition: "transform 0.2s, box-shadow 0.2s",
-        }}
+        style={{ position: "fixed", bottom: 24, right: 24, zIndex: 998, background: "#25d366", color: "#fff", width: 56, height: 56, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 20px rgba(37,211,102,0.4)", textDecoration: "none", transition: "transform 0.2s, box-shadow 0.2s" }}
         onMouseOver={e => { e.currentTarget.style.transform = "scale(1.1)"; e.currentTarget.style.boxShadow = "0 6px 24px rgba(37,211,102,0.5)"; }}
         onMouseOut={e => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.boxShadow = "0 4px 20px rgba(37,211,102,0.4)"; }}
       >

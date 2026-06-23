@@ -1,0 +1,22 @@
+{
+  "projects": {
+    "default": "abdominalgym-ec32f"
+  },
+  "targets": {
+    "abdominalgym-kudus": {
+      "hosting": {
+        "main": [
+          "abdominalgym-kudus-gym"
+        ]
+      }
+    },
+    "abdominalgym-ec32f": {
+      "hosting": {
+        "main": [
+          "abdominalgym-kudus-gym"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

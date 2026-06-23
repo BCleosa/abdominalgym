@@ -21,6 +21,7 @@ export default function Navbar() {
     { label: "Harga", href: "#pricing" },
     { label: "Pelatih", href: "#trainers" },
     { label: "Kontak", href: "#contact" },
+    { label: "Membership", href: "#/member", isPortal: true },
   ];
 
   return (
@@ -41,14 +42,17 @@ export default function Navbar() {
         {/* Desktop links */}
         {!isMobile && (
           <div style={{ display: "flex", gap: 2 }}>
-            {links.map(l => (
-              <a key={l.label} href={l.href} style={{
-                fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "0.875rem",
-                color: "#999", textDecoration: "none", padding: "6px 14px",
-                borderRadius: 4, transition: "color 0.2s",
-              }}
-              onMouseOver={e => e.currentTarget.style.color = "#fff"}
-              onMouseOut={e => e.currentTarget.style.color = "#999"}
+            {links.map(l => l.isPortal ? (
+              <a key={l.label} href={l.href}
+                onClick={e => { e.preventDefault(); window.location.hash = l.href; window.location.reload(); }}
+                style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "0.875rem", color: "#999", textDecoration: "none", padding: "6px 14px", borderRadius: 4, transition: "color 0.2s" }}
+                onMouseOver={e => e.currentTarget.style.color = "#fff"}
+                onMouseOut={e => e.currentTarget.style.color = "#999"}
+              >{l.label}</a>
+            ) : (
+              <a key={l.label} href={l.href} style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "0.875rem", color: "#999", textDecoration: "none", padding: "6px 14px", borderRadius: 4, transition: "color 0.2s" }}
+                onMouseOver={e => e.currentTarget.style.color = "#fff"}
+                onMouseOut={e => e.currentTarget.style.color = "#999"}
               >{l.label}</a>
             ))}
           </div>
@@ -82,13 +86,16 @@ export default function Navbar() {
       {/* Mobile menu dropdown */}
       {open && isMobile && (
         <div style={{ background: "rgba(30,30,30,0.92)", borderTop: "1px solid #1a1a1a", padding: "12px 24px 20px" }}>
-          {links.map(l => (
-            <a key={l.label} href={l.href} onClick={() => setOpen(false)} style={{
-              display: "block", padding: "14px 0",
-              borderBottom: "1px solid #151515",
-              fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "1rem",
-              color: "#f0ede8", textDecoration: "none",
-            }}>{l.label}</a>
+          {links.map(l => l.isPortal ? (
+            <a key={l.label} href={l.href}
+              onClick={e => { e.preventDefault(); setOpen(false); window.location.hash = l.href; window.location.reload(); }}
+              style={{ display: "block", padding: "14px 0", borderBottom: "1px solid #151515", fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "1rem", color: "#f0ede8", textDecoration: "none" }}>
+              {l.label}
+            </a>
+          ) : (
+            <a key={l.label} href={l.href} onClick={() => setOpen(false)} style={{ display: "block", padding: "14px 0", borderBottom: "1px solid #151515", fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "1rem", color: "#f0ede8", textDecoration: "none" }}>
+              {l.label}
+            </a>
           ))}
           <a href="#contact" onClick={() => setOpen(false)} style={{
             display: "block", marginTop: 16,
