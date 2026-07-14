@@ -1,1 +1,0 @@
-{"buildCommand": "cd gym-website && npm install && npm run build", "outputDirectory": "gym-website/dist"} 

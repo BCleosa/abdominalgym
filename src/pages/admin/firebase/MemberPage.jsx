@@ -3,18 +3,23 @@ import { api } from "../../../utils/api";
 import { exportToExcel } from "../../../utils/exportExcel";
 import { QRCodeSVG } from "qrcode.react";
 
-const emptyForm = { nama: "", noHp: "", jenisKelamin: "Laki-laki", paket: "Monthly", tanggalMulai: "", tanggalAkhir: "", status: "aktif", catatan: "" };
+const emptyForm = { nama: "", noHp: "", jenisKelamin: "Laki-laki", paket: "Monthly", tanggalMulai: "", tanggalAkhir: "", status: "aktif", catatan: "", pakaiPT: false, pelatih: "Tyo", paketPT: "8x", metodeBayar: "Cash" };
 const pakets = ["Monthly (Rp 160.000)", "Silver 3 Bulan (Rp 420.000)", "Gold 6 Bulan (Rp 730.000)", "Platinum 12 Bulan (Rp 1.240.000)"];
+const pelatihList = ["Tyo", "Elia", "Indah"];
+const paketPTOptions = [
+  { value: "trial", label: "1x Trial (Rp 150.000)" },
+  { value: "8x", label: "8x Coaching (Rp 600.000)" },
+  { value: "12x", label: "12x Coaching (Rp 800.000)" },
+  { value: "16x", label: "16x Coaching (Rp 1.000.000)" },
+];
 
-// Deteksi durasi paket dari nama labelnya (cocok untuk format manual admin maupun dari pendaftaran online,
-// karena keduanya selalu mengandung salah satu kata kunci ini).
 function getDurasiPaket(paketStr) {
   const s = (paketStr || "").toLowerCase();
   if (s.includes("insidentil")) return { hari: 1 };
   if (s.includes("silver")) return { bulan: 3 };
   if (s.includes("gold")) return { bulan: 6 };
   if (s.includes("platinum")) return { bulan: 12 };
-  return { bulan: 1 }; // default: Monthly / gak dikenali
+  return { bulan: 1 };
 }
 
 function tambahDurasi(tanggalStr, durasi) {
@@ -43,15 +48,17 @@ export default function MemberPage() {
   const [perpanjangMember, setPerpanjangMember] = useState(null);
   const [perpanjangPaket, setPerpanjangPaket] = useState(pakets[0]);
   const [perpanjangLoading, setPerpanjangLoading] = useState(false);
+  const [perpanjangMetode, setPerpanjangMetode] = useState("Cash");
+  const [konfirmasiModal, setKonfirmasiModal] = useState(null);
+  const [konfirmasiMetode, setKonfirmasiMetode] = useState("Cash");
+  const [konfirmasiLoading, setKonfirmasiLoading] = useState(false);
 
   const fetchMembers = async () => {
     setLoading(true);
     try {
       const data = await api.get("/member");
       setMembers(data);
-    } catch (err) {
-      alert("Gagal memuat data member: " + err.message);
-    }
+    } catch (err) { alert("Gagal memuat data member: " + err.message); }
     setLoading(false);
   };
 
@@ -59,16 +66,36 @@ export default function MemberPage() {
 
   const sf = (k, v) => setForm(p => ({ ...p, [k]: v }));
 
-  // Status efektif: kalau status-nya masih aktif/pending tapi tanggal akhirnya udah lewat,
-  // dianggap "tidak aktif" di tampilan (database-nya gak diubah otomatis, murni biar tampilannya akurat).
   const getEffectiveStatus = (m) => {
-    if ((m.status === "aktif" || m.status === "pending") && m.tanggalAkhir && m.tanggalAkhir < todayStr) {
-      return "tidak aktif";
-    }
+    if ((m.status === "aktif" || m.status === "pending") && m.tanggalAkhir && m.tanggalAkhir < todayStr) return "tidak aktif";
     return m.status;
   };
 
-  const openPerpanjang = (m) => { setPerpanjangMember(m); setPerpanjangPaket(pakets[0]); };
+  const openPerpanjang = (m) => { setPerpanjangMember(m); setPerpanjangPaket(pakets[0]); setPerpanjangMetode("Cash"); };
+
+  const handleKonfirmasiPembayaran = async () => {
+    setKonfirmasiLoading(true);
+    try {
+      const m = konfirmasiModal;
+      const tanggalMulai = todayStr;
+      const tanggalAkhir = tambahDurasi(tanggalMulai, getDurasiPaket(m.paket));
+      await api.put(`/member/${m.id}`, { ...m, status: "aktif", tanggalMulai, tanggalAkhir });
+      const jumlahStr = (m.paket || "").match(/Rp[\s]?([\d.]+)/);
+      const jumlah = jumlahStr ? parseInt(jumlahStr[1].replace(/\./g, "")) : 0;
+      if (jumlah > 0) {
+        await api.post("/keuangan", {
+          tipe: "pemasukan", kategori: "Member",
+          keterangan: `Member ${m.nama} - ${m.paket}`,
+          jumlah, metode: konfirmasiMetode,
+          tanggal: tanggalMulai,
+        });
+      }
+      setKonfirmasiModal(null);
+      fetchMembers();
+      alert(`✓ Pembayaran ${m.nama} dikonfirmasi via ${konfirmasiMetode}.`);
+    } catch (err) { alert("Gagal: " + err.message); }
+    setKonfirmasiLoading(false);
+  };
 
   const handlePerpanjangSubmit = async (e) => {
     e.preventDefault();
@@ -76,18 +103,20 @@ export default function MemberPage() {
     try {
       const tanggalMulai = todayStr;
       const tanggalAkhir = tambahDurasi(tanggalMulai, getDurasiPaket(perpanjangPaket));
-      await api.put(`/member/${perpanjangMember.id}`, {
-        ...perpanjangMember,
-        paket: perpanjangPaket,
-        tanggalMulai,
-        tanggalAkhir,
-        status: "aktif",
-      });
+      await api.put(`/member/${perpanjangMember.id}`, { ...perpanjangMember, paket: perpanjangPaket, tanggalMulai, tanggalAkhir, status: "aktif" });
+      const jumlahStr = (perpanjangPaket || "").match(/Rp[\s]?([\d.]+)/);
+      const jumlah = jumlahStr ? parseInt(jumlahStr[1].replace(/\./g, "")) : 0;
+      if (jumlah > 0) {
+        await api.post("/keuangan", {
+          tipe: "pemasukan", kategori: "Member",
+          keterangan: `Perpanjang ${perpanjangMember.nama} - ${perpanjangPaket}`,
+          jumlah, metode: perpanjangMetode,
+          tanggal: tanggalMulai,
+        });
+      }
       setPerpanjangMember(null);
       fetchMembers();
-    } catch (err) {
-      alert("Gagal memperpanjang member: " + err.message);
-    }
+    } catch (err) { alert("Gagal memperpanjang member: " + err.message); }
     setPerpanjangLoading(false);
   };
 
@@ -98,27 +127,40 @@ export default function MemberPage() {
         await api.put(`/member/${editId}`, form);
       } else {
         await api.post("/member", form);
+        const jumlahStr = (form.paket || "").match(/Rp[\s]?([\d.]+)/);
+        const jumlahMember = jumlahStr ? parseInt(jumlahStr[1].replace(/\./g, "")) : 0;
+        const hargaPT = { trial: 150000, "8x": 600000, "12x": 800000, "16x": 1000000 };
+        const jumlahPT = form.pakaiPT ? (hargaPT[form.paketPT] || 0) : 0;
+        const totalJumlah = jumlahMember + jumlahPT;
+        if (totalJumlah > 0) {
+          await api.post("/keuangan", {
+            tipe: "pemasukan",
+            kategori: form.pakaiPT ? "Member + Personal Training" : "Member",
+            keterangan: `${form.nama} - ${form.paket}${form.pakaiPT ? ` + PT ${form.pelatih} (${form.paketPT})` : ""}`,
+            jumlah: totalJumlah,
+            metode: form.metodeBayar,
+            tanggal: form.tanggalMulai || todayStr,
+          });
+        }
+        if (form.pakaiPT) {
+          await api.post("/pelatih/perpanjang", { pelatih: form.pelatih, member: form.nama, paket: form.paketPT });
+        }
       }
-      setShowForm(false);
-      setEditId(null);
-      setForm(emptyForm);
-      fetchMembers();
-    } catch (err) {
-      alert("Gagal menyimpan member: " + err.message);
-    }
+      setShowForm(false); setEditId(null); setForm(emptyForm); fetchMembers();
+    } catch (err) { alert("Gagal menyimpan member: " + err.message); }
   };
 
   const handleDelete = async () => {
     try {
       await api.delete(`/member/${deleteId}`);
-      setDeleteId(null);
-      fetchMembers();
-    } catch (err) {
-      alert("Gagal menghapus member: " + err.message);
-    }
+      setDeleteId(null); fetchMembers();
+    } catch (err) { alert("Gagal menghapus member: " + err.message); }
   };
 
-  const openEdit = (m) => { setForm({ nama: m.nama, noHp: m.noHp, jenisKelamin: m.jenisKelamin, paket: m.paket, tanggalMulai: m.tanggalMulai, tanggalAkhir: m.tanggalAkhir, status: m.status, catatan: m.catatan || "" }); setEditId(m.id); setShowForm(true); };
+  const openEdit = (m) => {
+    setForm({ nama: m.nama, noHp: m.noHp, jenisKelamin: m.jenisKelamin, paket: m.paket, tanggalMulai: m.tanggalMulai, tanggalAkhir: m.tanggalAkhir, status: m.status, catatan: m.catatan || "", pakaiPT: false, pelatih: "Tyo", paketPT: "8x", metodeBayar: "Cash" });
+    setEditId(m.id); setShowForm(true);
+  };
 
   const filtered = members.filter(m => {
     const matchSearch = m.nama?.toLowerCase().includes(search.toLowerCase()) || m.noHp?.includes(search);
@@ -127,30 +169,12 @@ export default function MemberPage() {
     return matchSearch && matchAwal && matchAkhir;
   });
 
-  const toggleSelect = (id) => {
-    setSelected(prev => {
-      const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
-      return next;
-    });
-  };
-  const toggleSelectAll = () => {
-    setSelected(prev => prev.size === filtered.length ? new Set() : new Set(filtered.map(m => m.id)));
-  };
+  const toggleSelect = (id) => { setSelected(prev => { const next = new Set(prev); next.has(id) ? next.delete(id) : next.add(id); return next; }); };
+  const toggleSelectAll = () => { setSelected(prev => prev.size === filtered.length ? new Set() : new Set(filtered.map(m => m.id))); };
 
   const handleExport = () => {
     const source = selected.size > 0 ? filtered.filter(m => selected.has(m.id)) : filtered;
-    const rows = source.map(m => ({
-      "Nama": m.nama,
-      "No HP": m.noHp,
-      "Jenis Kelamin": m.jenisKelamin,
-      "Paket": m.paket,
-      "Tanggal Mulai": m.tanggalMulai,
-      "Tanggal Akhir": m.tanggalAkhir,
-      "Status": m.status,
-      "Catatan": m.catatan || "",
-    }));
-    exportToExcel(rows, "Data_Member", "Member");
+    exportToExcel(source.map(m => ({ "Nama": m.nama, "No HP": m.noHp, "Jenis Kelamin": m.jenisKelamin, "Paket": m.paket, "Tanggal Mulai": m.tanggalMulai, "Tanggal Akhir": m.tanggalAkhir, "Status": m.status, "Catatan": m.catatan || "" })), "Data_Member", "Member");
   };
 
   const inputStyle = { width: "100%", background: "#fff", border: "1px solid #ddd", color: "#1a1a1a", fontFamily: "var(--font-body)", fontSize: "0.875rem", padding: "9px 12px", outline: "none" };
@@ -158,7 +182,6 @@ export default function MemberPage() {
 
   return (
     <div>
-      {/* Stats */}
       <div style={{ display: "flex", gap: 12, marginBottom: 20, flexWrap: "wrap" }}>
         {[
           { label: "Total Member", val: members.length, color: "#f0ede8" },
@@ -173,15 +196,11 @@ export default function MemberPage() {
         ))}
       </div>
 
-      {/* Toolbar */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14, flexWrap: "wrap", gap: 10 }}>
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
           <input value={search} onChange={e => setSearch(e.target.value)} placeholder="🔍 Cari nama / no HP..."
-            style={{ ...inputStyle, width: 220 }}
-            onFocus={e => e.target.style.borderColor = "#aaa"}
-            onBlur={e => e.target.style.borderColor = "#ddd"}
-          />
-          <span style={{ color: "#888", fontFamily: "var(--font-mono)", fontSize: "0.65rem", letterSpacing: "0.05em", textTransform: "uppercase" }}>Tgl Mulai</span>
+            style={{ ...inputStyle, width: 220 }} onFocus={e => e.target.style.borderColor="#aaa"} onBlur={e => e.target.style.borderColor="#ddd"} />
+          <span style={{ color: "#888", fontFamily: "var(--font-mono)", fontSize: "0.65rem", textTransform: "uppercase" }}>Tgl Mulai</span>
           <input type="date" value={filterAwal} onChange={e => setFilterAwal(e.target.value)}
             style={{ background: "#fff", border: "1px solid #ddd", color: "#1a1a1a", fontFamily: "var(--font-body)", fontSize: "0.825rem", padding: "8px 12px", outline: "none" }} />
           <span style={{ color: "#aaa", fontFamily: "var(--font-mono)", fontSize: "0.75rem" }}>s/d</span>
@@ -191,23 +210,14 @@ export default function MemberPage() {
             <button onClick={() => { setFilterAwal(""); setFilterAkhir(""); }}
               style={{ background: "none", border: "1px solid #ddd", color: "#888", fontFamily: "var(--font-body)", fontSize: "0.8rem", padding: "8px 14px", cursor: "pointer" }}>Reset</button>
           )}
-          {selected.size > 0 && (
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.65rem", color: "#1565c0" }}>{selected.size} dipilih</span>
-          )}
+          {selected.size > 0 && <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.65rem", color: "#1565c0" }}>{selected.size} dipilih</span>}
         </div>
         <div style={{ display: "flex", gap: 10 }}>
-          <button onClick={handleExport}
-            style={{ background: "#1a1a1a", color: "#fff", border: "none", fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "0.8rem", padding: "9px 16px", cursor: "pointer" }}>
-            Export Excel
-          </button>
-          <button onClick={() => { setForm(emptyForm); setEditId(null); setShowForm(true); }}
-            style={{ background: "#fff", color: "#080808", border: "none", fontFamily: "var(--font-body)", fontWeight: 700, fontSize: "0.8rem", padding: "9px 18px", cursor: "pointer" }}>
-            + Tambah Member
-          </button>
+          <button onClick={handleExport} style={{ background: "#1a1a1a", color: "#fff", border: "none", fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "0.8rem", padding: "9px 16px", cursor: "pointer" }}>Export Excel</button>
+          <button onClick={() => { setForm(emptyForm); setEditId(null); setShowForm(true); }} style={{ background: "#fff", color: "#080808", border: "none", fontFamily: "var(--font-body)", fontWeight: 700, fontSize: "0.8rem", padding: "9px 18px", cursor: "pointer" }}>+ Tambah Member</button>
         </div>
       </div>
 
-      {/* Table */}
       <div style={{ background: "#fff", border: "1px solid #e0e0e0", overflow: "auto" }}>
         {loading ? (
           <div style={{ padding: 40, textAlign: "center", color: "#444", fontFamily: "var(--font-mono)", fontSize: "0.75rem" }}>Memuat data...</div>
@@ -229,11 +239,8 @@ export default function MemberPage() {
               ) : filtered.map((m, i) => (
                 <tr key={m.id} style={{ borderBottom: "1px solid #1a1a1a", background: selected.has(m.id) ? "#f5faff" : "transparent" }}
                   onMouseOver={e => e.currentTarget.style.background = selected.has(m.id) ? "#eef6ff" : "#f5f5f5"}
-                  onMouseOut={e => e.currentTarget.style.background = selected.has(m.id) ? "#f5faff" : "transparent"}
-                >
-                  <td style={{ padding: "10px 14px" }}>
-                    <input type="checkbox" checked={selected.has(m.id)} onChange={() => toggleSelect(m.id)} />
-                  </td>
+                  onMouseOut={e => e.currentTarget.style.background = selected.has(m.id) ? "#f5faff" : "transparent"}>
+                  <td style={{ padding: "10px 14px" }}><input type="checkbox" checked={selected.has(m.id)} onChange={() => toggleSelect(m.id)} /></td>
                   <td style={{ padding: "10px 14px", color: "#333" }}>{i + 1}</td>
                   <td style={{ padding: "10px 14px" }}>
                     <div style={{ fontWeight: 600, color: "#1a1a1a" }}>{m.nama}</div>
@@ -247,12 +254,7 @@ export default function MemberPage() {
                     {(() => {
                       const eff = getEffectiveStatus(m);
                       return (
-                        <span style={{
-                          background: eff === "aktif" ? "#e8f5e9" : eff === "pending" ? "#fff8e1" : "#ffebee",
-                          color: eff === "aktif" ? "#2e7d32" : eff === "pending" ? "#f57f17" : "#c62828",
-                          fontFamily: "var(--font-mono)", fontSize: "0.65rem", padding: "3px 10px", borderRadius: 20, fontWeight: 600,
-                          border: `1px solid ${eff === "aktif" ? "#a5d6a7" : eff === "pending" ? "#ffe082" : "#ef9a9a"}`
-                        }}>
+                        <span style={{ background: eff === "aktif" ? "#e8f5e9" : eff === "pending" ? "#fff8e1" : "#ffebee", color: eff === "aktif" ? "#2e7d32" : eff === "pending" ? "#f57f17" : "#c62828", fontFamily: "var(--font-mono)", fontSize: "0.65rem", padding: "3px 10px", borderRadius: 20, fontWeight: 600, border: `1px solid ${eff === "aktif" ? "#a5d6a7" : eff === "pending" ? "#ffe082" : "#ef9a9a"}` }}>
                           {eff}
                         </span>
                       );
@@ -260,6 +262,16 @@ export default function MemberPage() {
                   </td>
                   <td style={{ padding: "10px 14px" }}>
                     <button onClick={() => setShowQR(m)} style={{ background: "none", border: "none", color: "#5ba3d9", fontFamily: "var(--font-mono)", fontSize: "0.65rem", cursor: "pointer", padding: "2px 6px" }}>QR</button>
+                    <button onClick={async () => {
+                      try {
+                        await api.post(`/member/${m.id}/buat-akun`);
+                        alert(`✓ Akun berhasil dibuat.\nUsername & password: ${(m.noHp || "").replace(/\D/g, "")}`);
+                      } catch (err) { alert("Gagal: " + err.message); }
+                    }} style={{ background: "none", border: "none", color: "#1565c0", fontFamily: "var(--font-mono)", fontSize: "0.65rem", cursor: "pointer", padding: "2px 6px" }}>Akun</button>
+                    {getEffectiveStatus(m) === "pending" && (
+                      <button onClick={() => { setKonfirmasiModal(m); setKonfirmasiMetode("Cash"); }}
+                        style={{ background: "none", border: "none", color: "#2e7d32", fontFamily: "var(--font-mono)", fontSize: "0.65rem", fontWeight: 700, cursor: "pointer", padding: "2px 6px" }}>💰 Bayar</button>
+                    )}
                     <button onClick={() => openEdit(m)} style={{ background: "none", border: "none", color: "#aaa", fontFamily: "var(--font-mono)", fontSize: "0.65rem", cursor: "pointer", padding: "2px 6px" }}>Edit</button>
                     {getEffectiveStatus(m) !== "aktif" && (
                       <button onClick={() => openPerpanjang(m)} style={{ background: "none", border: "none", color: "#2e7d32", fontFamily: "var(--font-mono)", fontSize: "0.65rem", fontWeight: 700, cursor: "pointer", padding: "2px 6px" }}>Perpanjang</button>
@@ -273,7 +285,6 @@ export default function MemberPage() {
         )}
       </div>
 
-      {/* Form Modal */}
       {showForm && (
         <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.88)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}
           onClick={e => { if (e.target === e.currentTarget) setShowForm(false); }}>
@@ -296,8 +307,7 @@ export default function MemberPage() {
                 <div>
                   <label style={labelStyle}>Jenis Kelamin</label>
                   <select style={{ ...inputStyle, appearance: "none" }} value={form.jenisKelamin} onChange={e => sf("jenisKelamin", e.target.value)}>
-                    <option>Laki-laki</option>
-                    <option>Perempuan</option>
+                    <option>Laki-laki</option><option>Perempuan</option>
                   </select>
                 </div>
                 <div>
@@ -318,7 +328,7 @@ export default function MemberPage() {
                 <div>
                   <label style={labelStyle}>Tanggal Akhir</label>
                   <input style={inputStyle} type="date" value={form.tanggalAkhir} onChange={e => sf("tanggalAkhir", e.target.value)} onFocus={e => e.target.style.borderColor="#555"} onBlur={e => e.target.style.borderColor="#222"} />
-                  <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.6rem", color: "#444", marginTop: 4 }}>Otomatis terisi sesuai Tanggal Mulai + durasi paket, tapi bisa diubah manual.</p>
+                  <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.6rem", color: "#444", marginTop: 4 }}>Otomatis terisi sesuai Tanggal Mulai + durasi paket.</p>
                 </div>
               </div>
               <div style={{ marginBottom: 14 }}>
@@ -330,22 +340,56 @@ export default function MemberPage() {
                   <option value="expired">Expired</option>
                 </select>
               </div>
-              <div style={{ marginBottom: 20 }}>
+              <div style={{ marginBottom: 14 }}>
                 <label style={labelStyle}>Catatan</label>
                 <textarea style={{ ...inputStyle, resize: "vertical", minHeight: 60 }} value={form.catatan} onChange={e => sf("catatan", e.target.value)} placeholder="Opsional..." onFocus={e => e.target.style.borderColor="#555"} onBlur={e => e.target.style.borderColor="#222"} />
               </div>
+              {!editId && (
+                <>
+                  <div style={{ marginBottom: 14 }}>
+                    <label style={labelStyle}>Metode Pembayaran</label>
+                    <div style={{ display: "flex", gap: 8 }}>
+                      {["Cash", "QRIS", "Transfer"].map(mt => (
+                        <button key={mt} type="button" onClick={() => sf("metodeBayar", mt)}
+                          style={{ flex: 1, padding: "8px", border: `2px solid ${form.metodeBayar === mt ? "#fff" : "#333"}`, background: form.metodeBayar === mt ? "#fff" : "transparent", color: form.metodeBayar === mt ? "#080808" : "#888", fontFamily: "var(--font-body)", fontWeight: form.metodeBayar === mt ? 700 : 400, fontSize: "0.8rem", cursor: "pointer" }}>
+                          {mt}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div style={{ marginBottom: 20, padding: "12px 14px", background: form.pakaiPT ? "#1a1f2e" : "#111", border: `1px solid ${form.pakaiPT ? "#3a4a6a" : "#222"}` }}>
+                    <label style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }}>
+                      <input type="checkbox" checked={form.pakaiPT} onChange={e => sf("pakaiPT", e.target.checked)} style={{ width: 16, height: 16, cursor: "pointer" }} />
+                      <span style={{ fontFamily: "var(--font-body)", fontSize: "0.875rem", color: "#f0ede8", fontWeight: form.pakaiPT ? 600 : 400 }}>Pakai Personal Trainer (opsional)</span>
+                    </label>
+                    {form.pakaiPT && (
+                      <div style={{ marginTop: 12, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+                        <div>
+                          <label style={{ ...labelStyle, color: "#888" }}>Pelatih</label>
+                          <select style={{ ...inputStyle, background: "#0a0a0a", border: "1px solid #333", color: "#f0ede8", appearance: "none" }} value={form.pelatih} onChange={e => sf("pelatih", e.target.value)}>
+                            {pelatihList.map(p => <option key={p}>{p}</option>)}
+                          </select>
+                        </div>
+                        <div>
+                          <label style={{ ...labelStyle, color: "#888" }}>Paket PT</label>
+                          <select style={{ ...inputStyle, background: "#0a0a0a", border: "1px solid #333", color: "#f0ede8", appearance: "none" }} value={form.paketPT} onChange={e => sf("paketPT", e.target.value)}>
+                            {paketPTOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+                          </select>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
               <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
                 <button type="button" onClick={() => setShowForm(false)} style={{ background: "none", border: "1px solid #222", color: "#888", fontFamily: "var(--font-body)", fontSize: "0.8rem", padding: "9px 18px", cursor: "pointer" }}>Batal</button>
-                <button type="submit" style={{ background: "#fff", color: "#080808", border: "none", fontFamily: "var(--font-body)", fontWeight: 700, fontSize: "0.8rem", padding: "9px 20px", cursor: "pointer" }}>
-                  {editId ? "Simpan" : "Tambah"}
-                </button>
+                <button type="submit" style={{ background: "#fff", color: "#080808", border: "none", fontFamily: "var(--font-body)", fontWeight: 700, fontSize: "0.8rem", padding: "9px 20px", cursor: "pointer" }}>{editId ? "Simpan" : "Tambah"}</button>
               </div>
             </form>
           </div>
         </div>
       )}
 
-      {/* QR Modal */}
       {showQR && (
         <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.92)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}
           onClick={e => { if (e.target === e.currentTarget) setShowQR(null); }}>
@@ -361,7 +405,35 @@ export default function MemberPage() {
         </div>
       )}
 
-      {/* Perpanjang Modal */}
+      {konfirmasiModal && (
+        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.88)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}
+          onClick={e => { if (e.target === e.currentTarget) setKonfirmasiModal(null); }}>
+          <div style={{ background: "#141414", border: "1px solid #222", width: "100%", maxWidth: 400, padding: 28 }}>
+            <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "1.1rem", color: "#f0ede8", marginBottom: 4 }}>💰 Konfirmasi Pembayaran</div>
+            <p style={{ fontSize: "0.8rem", color: "#888", marginBottom: 20 }}>{konfirmasiModal.nama} · {konfirmasiModal.paket}</p>
+            <label style={{ display: "block", fontFamily: "var(--font-mono)", fontSize: "0.6rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "#666", marginBottom: 8 }}>Metode Pembayaran</label>
+            <div style={{ display: "flex", gap: 8, marginBottom: 20 }}>
+              {["Cash", "QRIS", "Transfer"].map(mt => (
+                <button key={mt} onClick={() => setKonfirmasiMetode(mt)}
+                  style={{ flex: 1, padding: "10px", border: `2px solid ${konfirmasiMetode === mt ? "#fff" : "#333"}`, background: konfirmasiMetode === mt ? "#fff" : "transparent", color: konfirmasiMetode === mt ? "#080808" : "#888", fontFamily: "var(--font-body)", fontWeight: konfirmasiMetode === mt ? 700 : 400, fontSize: "0.875rem", cursor: "pointer" }}>
+                  {mt}
+                </button>
+              ))}
+            </div>
+            <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.65rem", color: "#555", marginBottom: 20, lineHeight: 1.6 }}>
+              Status member otomatis jadi <strong style={{ color: "#4caf50" }}>aktif</strong> dan pemasukan otomatis tercatat di Keuangan.
+            </p>
+            <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
+              <button onClick={() => setKonfirmasiModal(null)} style={{ background: "none", border: "1px solid #333", color: "#888", fontFamily: "var(--font-body)", fontSize: "0.8rem", padding: "9px 18px", cursor: "pointer" }}>Batal</button>
+              <button onClick={handleKonfirmasiPembayaran} disabled={konfirmasiLoading}
+                style={{ background: "#4caf50", color: "#fff", border: "none", fontFamily: "var(--font-body)", fontWeight: 700, fontSize: "0.8rem", padding: "9px 20px", cursor: konfirmasiLoading ? "default" : "pointer", opacity: konfirmasiLoading ? 0.6 : 1 }}>
+                {konfirmasiLoading ? "Memproses..." : "Konfirmasi"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {perpanjangMember && (
         <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.88)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}
           onClick={e => { if (e.target === e.currentTarget) setPerpanjangMember(null); }}>
@@ -375,9 +447,20 @@ export default function MemberPage() {
                   {pakets.map(p => <option key={p}>{p}</option>)}
                 </select>
               </div>
-              <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.65rem", color: "#666", marginBottom: 20, lineHeight: 1.6 }}>
-                Tanggal mulai otomatis hari ini ({todayStr}), tanggal akhir otomatis dihitung sesuai durasi paket, status langsung jadi <strong style={{ color: "#4caf50" }}>aktif</strong>.
+              <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.65rem", color: "#666", marginBottom: 14, lineHeight: 1.6 }}>
+                Tanggal mulai otomatis hari ini ({todayStr}), status langsung jadi <strong style={{ color: "#4caf50" }}>aktif</strong>.
               </p>
+              <div style={{ marginBottom: 20 }}>
+                <label style={labelStyle}>Metode Pembayaran</label>
+                <div style={{ display: "flex", gap: 8 }}>
+                  {["Cash", "QRIS", "Transfer"].map(mt => (
+                    <button key={mt} type="button" onClick={() => setPerpanjangMetode(mt)}
+                      style={{ flex: 1, padding: "8px", border: `2px solid ${perpanjangMetode === mt ? "#fff" : "#333"}`, background: perpanjangMetode === mt ? "#fff" : "transparent", color: perpanjangMetode === mt ? "#080808" : "#888", fontFamily: "var(--font-body)", fontWeight: perpanjangMetode === mt ? 700 : 400, fontSize: "0.8rem", cursor: "pointer" }}>
+                      {mt}
+                    </button>
+                  ))}
+                </div>
+              </div>
               <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
                 <button type="button" onClick={() => setPerpanjangMember(null)} style={{ background: "none", border: "1px solid #222", color: "#888", fontFamily: "var(--font-body)", fontSize: "0.8rem", padding: "9px 18px", cursor: "pointer" }}>Batal</button>
                 <button type="submit" disabled={perpanjangLoading} style={{ background: "#fff", color: "#080808", border: "none", fontFamily: "var(--font-body)", fontWeight: 700, fontSize: "0.8rem", padding: "9px 20px", cursor: perpanjangLoading ? "default" : "pointer", opacity: perpanjangLoading ? 0.6 : 1 }}>
@@ -389,7 +472,6 @@ export default function MemberPage() {
         </div>
       )}
 
-      {/* Delete Confirm */}
       {deleteId && (
         <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.88)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
           <div style={{ background: "#141414", border: "1px solid #222", padding: 28, maxWidth: 360 }}>

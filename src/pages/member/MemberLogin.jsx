@@ -24,7 +24,7 @@ export default function MemberLogin({ onLogin }) {
     <div style={{ minHeight: "100vh", background: "#0a0a0a", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
       <div style={{ width: "100%", maxWidth: 360 }}>
         <div style={{ textAlign: "center", marginBottom: 32 }}>
-          <img src="/logogym.png" alt="Abdominal Gym" style={{ height: 52, objectFit: "contain", marginBottom: 14 }} />
+          <img src="/logogym.png" alt="Abdominal Gym" style={{ height: 150, objectFit: "contain", marginBottom: 14 }} />
           <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.65rem", letterSpacing: "0.25em", textTransform: "uppercase", color: "#888" }}>Member Portal</div>
         </div>
         <div style={{ background: "#141414", border: "1px solid #222", padding: "28px 24px" }}>

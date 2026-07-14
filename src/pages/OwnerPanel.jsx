@@ -12,7 +12,7 @@ const menus = [
 ];
 
 export default function OwnerPanel({ onBack }) {
-  const [authState, setAuthState] = useState("checking"); // checking | in | out
+  const [authState, setAuthState] = useState("checking");
   const [nama, setNama] = useState("");
   const [activePage, setActivePage] = useState("keuangan");
 
@@ -24,9 +24,7 @@ export default function OwnerPanel({ onBack }) {
         if (res.user?.role === "owner") {
           setNama(res.user.nama || localStorage.getItem("owner_nama") || "Owner");
           setAuthState("in");
-        } else {
-          setAuthState("out");
-        }
+        } else { setAuthState("out"); }
       })
       .catch(() => setAuthState("out"));
   }, []);
@@ -37,26 +35,20 @@ export default function OwnerPanel({ onBack }) {
     setAuthState("out");
   };
 
-  if (authState === "checking") {
-    return <div style={{ minHeight: "100vh", background: "#0a0a0a" }} />;
-  }
-  if (authState === "out") {
-    return <OwnerLogin onLogin={(data) => { setNama(data.nama); setAuthState("in"); }} />;
-  }
+  if (authState === "checking") return <div style={{ minHeight: "100vh", background: "#0a0a0a" }} />;
+  if (authState === "out") return <OwnerLogin onLogin={(data) => { setNama(data.nama); setAuthState("in"); }} />;
 
   const renderPage = () => {
     switch (activePage) {
-      case "keuangan": return <RingkasanKeuangan />;
-      case "gaji": return <GajiPelatihKaryawan />;
-      case "analisis": return <Analisis />;
-      default: return <RingkasanKeuangan />;
+      case "keuangan": return <RingkasanKeuangan key="keuangan" />;
+      case "gaji": return <GajiPelatihKaryawan key="gaji" />;
+      case "analisis": return <Analisis key="analisis" />;
+      default: return <RingkasanKeuangan key="keuangan" />;
     }
   };
 
   return (
     <div style={{ display: "flex", minHeight: "100vh", background: "#f5f5f5" }}>
-
-      {/* Sidebar — gradasi gold/amber buat bedain dari Admin (biru-ungu) */}
       <aside style={{
         width: 220,
         background: "linear-gradient(180deg, #0a0a0a 0%, #3a2a10 50%, #8a6d1a 100%)",
@@ -68,7 +60,6 @@ export default function OwnerPanel({ onBack }) {
           <img src="/logogym.png" alt="Abdominal Gym" style={{ height: 100, objectFit: "contain", maxWidth: "100%" }} />
           <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", letterSpacing: "0.2em", color: "#fff", marginTop: 6, textTransform: "uppercase" }}>Owner Portal</div>
         </div>
-
         <nav style={{ flex: 1, padding: "12px 0", overflowY: "auto" }}>
           {menus.map(m => (
             <button key={m.id} onClick={() => setActivePage(m.id)}
@@ -92,8 +83,6 @@ export default function OwnerPanel({ onBack }) {
             </button>
           ))}
         </nav>
-
-        {/* Bottom */}
         <div style={{ padding: "12px 16px", borderTop: "1px solid rgba(255,255,255,0.15)", display: "flex", flexDirection: "column", gap: 8 }}>
           <button onClick={onBack}
             style={{ background: "rgba(0,0,0,0.2)", border: "1px solid rgba(255,255,255,0.25)", color: "rgba(255,255,255,0.85)", textShadow: "0 1px 2px rgba(0,0,0,0.5)", fontFamily: "var(--font-mono)", fontSize: "0.6rem", letterSpacing: "0.1em", textTransform: "uppercase", padding: "8px", cursor: "pointer", transition: "all 0.2s" }}

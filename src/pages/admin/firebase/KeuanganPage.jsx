@@ -86,6 +86,8 @@ export default function KeuanganPage() {
   const totalMasuk = filtered.filter(d => d.tipe === "pemasukan").reduce((s, d) => s + d.jumlah, 0);
   const totalKeluar = filtered.filter(d => d.tipe === "pengeluaran").reduce((s, d) => s + d.jumlah, 0);
   const saldo = totalMasuk - totalKeluar;
+  const totalCash = filtered.filter(d => d.tipe === "pemasukan" && (d.metode || "").toLowerCase() === "cash").reduce((s, d) => s + d.jumlah, 0);
+  const totalQris = filtered.filter(d => d.tipe === "pemasukan" && (d.metode || "").toLowerCase() === "qris").reduce((s, d) => s + d.jumlah, 0);
 
   const inputStyle = { width: "100%", background: "#f5f5f5", border: "1px solid #ddd", color: "#1a1a1a", fontFamily: "var(--font-body)", fontSize: "0.875rem", padding: "9px 12px", outline: "none" };
   const labelStyle = { display: "block", fontFamily: "var(--font-mono)", fontSize: "0.6rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "#666", marginBottom: 5 };
@@ -93,17 +95,18 @@ export default function KeuanganPage() {
   return (
     <div>
       {/* Summary */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: 12, marginBottom: 20 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: 12, marginBottom: 20 }}>
         {[
           { label: "Pemasukan", val: fmt(totalMasuk), color: "#2e7d32" },
           { label: "Pengeluaran", val: fmt(totalKeluar), color: "#c62828" },
           { label: "Saldo Bersih", val: fmt(saldo), color: saldo >= 0 ? "#1a1a1a" : "#c62828" },
-          { label: "Transaksi", val: filtered.length, color: "#666" },
+          { label: "Cash", val: fmt(totalCash), color: "#1565c0" },
+          { label: "QRIS", val: fmt(totalQris), color: "#6a1b9a" },
         ].map((s, i) => (
-          <div key={i} style={{ background: "#fff", border: "1px solid #e0e0e0", padding: "16px 18px", position: "relative", overflow: "hidden" }}>
+          <div key={i} style={{ background: "#fff", border: "1px solid #e0e0e0", padding: "14px 16px", position: "relative", overflow: "hidden" }}>
             <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: s.color }} />
-            <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "1.2rem", color: s.color, lineHeight: 1, marginTop: 8 }}>{s.val}</div>
-            <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.62rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "#888", marginTop: 6 }}>{s.label}</div>
+            <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "1.1rem", color: s.color, lineHeight: 1, marginTop: 8 }}>{s.val}</div>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.6rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "#888", marginTop: 6 }}>{s.label}</div>
           </div>
         ))}
       </div>

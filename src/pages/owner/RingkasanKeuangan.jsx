@@ -116,17 +116,19 @@ export default function RingkasanKeuangan() {
               { label: "Total Pemasukan", val: summary.totalPemasukan, color: "#2e7d32" },
               { label: "Total Pengeluaran", val: summary.totalPengeluaran, color: "#c62828" },
               { label: "Selisih (Laba Kotor)", val: selisih, color: selisih >= 0 ? "#1565c0" : "#f57f17" },
+              { label: "Cash", val: summary.byMetode?.["Cash"] || 0, color: "#1565c0" },
+              { label: "QRIS", val: summary.byMetode?.["QRIS"] || 0, color: "#6a1b9a" },
             ].map(s => (
-              <div key={s.label} style={{ flex: "1 1 220px", background: "#fff", border: "1px solid #e0e0e0", borderLeft: `4px solid ${s.color}`, padding: "16px 20px" }}>
+              <div key={s.label} style={{ flex: "1 1 180px", background: "#fff", border: "1px solid #e0e0e0", borderLeft: `4px solid ${s.color}`, padding: "16px 20px" }}>
                 <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.62rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "#888", marginBottom: 6 }}>{s.label}</div>
-                <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "1.5rem", color: s.color }}>{fmt(s.val)}</div>
+                <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "1.4rem", color: s.color }}>{fmt(s.val)}</div>
               </div>
             ))}
           </div>
 
           <div style={{ background: "#fff", border: "1px solid #e0e0e0", padding: 20, marginBottom: 24 }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12, flexWrap: "wrap", gap: 10 }}>
-              <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "0.95rem", color: "#1a1a1a" }}>Grafik Pendapatan</div>
+       const [awal, setAwal] = useState(new Date(new Date().getFullYear(), 0, 1).toISOString().split("T")[0]);       <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "0.95rem", color: "#1a1a1a" }}>Grafik Pendapatan</div>
               <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
                 {["harian", "bulanan"].map(m => (
                   <button key={m} onClick={() => setChartMode(m)}

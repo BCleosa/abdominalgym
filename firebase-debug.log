@@ -1225,3 +1225,232 @@
 [debug] [2026-06-23T12:45:19.646Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/abdominalgym-kudus-gym/channels/live/releases versionName=projects%2F776059583001%2Fsites%2Fabdominalgym-kudus-gym%2Fversions%2F12043d67ec15c69a
 [debug] [2026-06-23T12:45:19.646Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/abdominalgym-kudus-gym/channels/live/releases {}
 [debug] [2026-06-23T12:45:20.762Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/abdominalgym-kudus-gym/channels/live/releases 200
+[debug] [2026-06-23T12:51:59.702Z] ----------------------------------------------------------------------
+[debug] [2026-06-23T12:51:59.705Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\OSA\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only hosting --debug
+[debug] [2026-06-23T12:51:59.706Z] CLI Version:   15.22.1
+[debug] [2026-06-23T12:51:59.706Z] Platform:      win32
+[debug] [2026-06-23T12:51:59.706Z] Node Version:  v24.14.0
+[debug] [2026-06-23T12:51:59.706Z] Detected Agent: unknown
+[debug] [2026-06-23T12:51:59.706Z] Time:          Tue Jun 23 2026 19:51:59 GMT+0700 (Western Indonesia Time)
+[debug] [2026-06-23T12:51:59.706Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-06-23T12:52:03.862Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-06-23T12:52:03.864Z] > authorizing via signed-in user (birgitacleosa2410@gmail.com)
+[debug] [2026-06-23T12:52:03.864Z] [iam] checking project abdominalgym-ec32f for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2026-06-23T12:52:03.866Z] Checked if tokens are valid: true, expires at: 1782221961981
+[debug] [2026-06-23T12:52:03.866Z] Checked if tokens are valid: true, expires at: 1782221961981
+[debug] [2026-06-23T12:52:03.868Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/abdominalgym-ec32f:testIamPermissions [none]
+[debug] [2026-06-23T12:52:03.868Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/abdominalgym-ec32f:testIamPermissions  x-goog-user-project=abdominalgym-ec32f
+[debug] [2026-06-23T12:52:03.868Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/abdominalgym-ec32f:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-06-23T12:52:04.756Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/abdominalgym-ec32f:testIamPermissions 200
+[debug] [2026-06-23T12:52:04.757Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/abdominalgym-ec32f:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-06-23T12:52:04.759Z] Checked if tokens are valid: true, expires at: 1782221961981
+[debug] [2026-06-23T12:52:04.759Z] Checked if tokens are valid: true, expires at: 1782221961981
+[debug] [2026-06-23T12:52:04.760Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/abdominalgym-ec32f [none]
+[debug] [2026-06-23T12:52:05.494Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/abdominalgym-ec32f 200
+[debug] [2026-06-23T12:52:05.495Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/abdominalgym-ec32f {"projectId":"abdominalgym-ec32f","projectNumber":"776059583001","displayName":"abdominalgym","name":"projects/abdominalgym-ec32f","resources":{"hostingSite":"abdominalgym-ec32f"},"state":"ACTIVE","etag":"1_d6734deb-f7fc-488c-bba3-0671f06e31e3"}
+[info] 
+[info] === Deploying to 'abdominalgym-ec32f'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2026-06-23T12:52:05.505Z] Checked if tokens are valid: true, expires at: 1782221961981
+[debug] [2026-06-23T12:52:05.506Z] Checked if tokens are valid: true, expires at: 1782221961981
+[debug] [2026-06-23T12:52:05.506Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/abdominalgym-ec32f/sites/abdominalgym-kudus-gym [none]
+[debug] [2026-06-23T12:52:06.609Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/abdominalgym-ec32f/sites/abdominalgym-kudus-gym 200
+[debug] [2026-06-23T12:52:06.612Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/abdominalgym-ec32f/sites/abdominalgym-kudus-gym {"name":"projects/abdominalgym-ec32f/sites/abdominalgym-kudus-gym","defaultUrl":"https://abdominalgym-kudus-gym.web.app","type":"USER_SITE"}
+[debug] [2026-06-23T12:52:06.615Z] Checked if tokens are valid: true, expires at: 1782221961981
+[debug] [2026-06-23T12:52:06.615Z] Checked if tokens are valid: true, expires at: 1782221961981
+[debug] [2026-06-23T12:52:06.616Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/abdominalgym-kudus-gym/versions [none]
+[debug] [2026-06-23T12:52:06.616Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/abdominalgym-kudus-gym/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2026-06-23T12:52:07.885Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/abdominalgym-kudus-gym/versions 200
+[debug] [2026-06-23T12:52:07.886Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/abdominalgym-kudus-gym/versions {"name":"projects/776059583001/sites/abdominalgym-kudus-gym/versions/916f74190edcdd8e","status":"CREATED","config":{},"labels":{"deployment-tool":"cli-firebase"}}
+[info] i  hosting[abdominalgym-kudus-gym]: beginning deploy... 
+[info] i  hosting[abdominalgym-kudus-gym]: found 32 files in dist 
+[debug] [2026-06-23T12:52:07.927Z] [hosting] uploading with 200 concurrency
+[debug] [2026-06-23T12:52:07.994Z] Checked if tokens are valid: true, expires at: 1782221961981
+[debug] [2026-06-23T12:52:07.994Z] Checked if tokens are valid: true, expires at: 1782221961981
+[debug] [2026-06-23T12:52:07.996Z] [hosting] hash cache [ZGlzdA] stored for 32 files
+[debug] [2026-06-23T12:52:07.996Z] [hosting][hash queue][FINAL] {"max":56,"min":1,"avg":3.34375,"active":0,"complete":32,"success":32,"errored":0,"retried":0,"total":32,"elapsed":64}
+[debug] [2026-06-23T12:52:07.997Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/776059583001/sites/abdominalgym-kudus-gym/versions/916f74190edcdd8e:populateFiles [none]
+[debug] [2026-06-23T12:52:07.997Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/776059583001/sites/abdominalgym-kudus-gym/versions/916f74190edcdd8e:populateFiles {"files":{"/qris.jpg":"631ea99257965aed43bd85914e120f9c5555d10abdfc6737df92882af809f42c","/logogym.png":"c85c19c20d90280b4475e44bd02e10280c1de4bc1c07c0867921d7a60569d397","/gym7.jpg":"42276209c0b88b4ae552be93d2a697fa81928d35d062ce26b33130209c1e1ff3","/gym6.jpg":"fcb810e97de55afb76eefa4cde7b03d09ac68a688c78f7f84dd49da977609e48","/gym5.jpg":"7067416c934cc31e25a462a6e57e34672bc93ca3f99b52ab116b6af738ae0b37","/gym4.jpg":"a30210f988be80c1ce0d06b77cc5876681b55504140e8264b71ff8ba23650ca6","/gym3.jpg":"cd823841744c5237a745c9ef4bb848f33b5acfe4538e8b586f75bd3303c87378","/gym2.jpg":"341c109aa895156b791bb8201cce1459ec7af82a87a8827104c5471846b98b07","/gym1.jpg":"6576d8e3165cb75b7e188dcab075e61c32016ab24c437d91b161a76b47cb0885","/gym.png":"5700d88a1fce790fe5fcbb5c390a23d7d03161ce8117e507472d4caf773ba14c","/gallery/lt3-5.jpg":"9475af5e39a5f5310b7c27336f849dd0a29802c52e7d1fa4ca467e3dc04a1769","/gallery/lt3-4.jpg":"5eaad130f6219787be437a0443caa1a69d0873455741f08608950f4b580b389d","/gallery/lt3-3.jpg":"ecc3c87513dcea536cdfc96a69710e25e0554f435d90da4d92ed842e93702a40","/gallery/lt3-2.jpg":"3411da01c4b5dcd8d9de3b4847a8f7c1faff3fac7226bd57ca64fd92f7226390","/gallery/lt3-1.jpg":"8851292990bca1067429631a38294fa4f77cba19b1b620811a90d7d8d69020eb","/gallery/lt2-9.jpg":"6affdc28c9ad14f56505c34b9e1d52481fd30a9062674b162ba748e1bfa6cbac","/gallery/lt2-8.jpg":"a05e499a6e05f130ec3a57578dcadb99afdb5cd827eb71a701539e553d0591eb","/gallery/lt2-7.jpg":"284a56e45c38a4b5a993231a454082668783703d121128d1e7dc44314f04f818","/gallery/lt2-6.jpg":"3995d0884196221bd0378ca3e230c1047b7ea1fe101b20af8e310ab5a1635db6","/gallery/lt2-5.jpg":"9d9f5273d5be74ecbf10dd7baacf972b3e7979bb55626b00552d141bec1dfb49","/gallery/lt2-4.jpg":"06781417b22f9c1a46be600625c39d5192f67709c479929f013338dcc42bc32c","/gallery/lt2-3.jpg":"98f96eca8a691ebb1da749e9ad88dcae4b387737b8520a3e2f733443ab962109","/gallery/lt2-2.jpg":"79d793e4d22a374810db05418b5135b1e4047959add669a7e2ef05bbd483c810","/gallery/lt2-1.jpg":"ec5f6992264357f3f447072228c0a1e8e93eae7701e7c80a2e2f80fd4e9308b9","/gallery/lt1-5.jpg":"d38a16bc5580d7df7887db6845a0c90aa78c60305977c3df93b3101601421bad","/gallery/lt1-4.jpg":"bac394ab350b24de85590acd9cf1fbac4faf771357b011905e11efdad0bd12df","/gallery/lt1-3.jpg":"4e0760e627ea2688ba45eef7069d55118092d553d1dff2e241b8d1f98d3286d7","/gallery/lt1-2.jpg":"b612ab29deea1a7a2209921a8f5188a77f996aa2088cdf89bfd0cd4b26d1f916","/gallery/lt1-1.jpg":"d5a5098a897f5e5ee6a3d98b20c4d2e82f762a3d8cca902ba5a52bc912ed611c","/assets/index-BaIFvRX-.css":"f614af7fc281e46f695299dfcae6aa5fe58fedbd9635288b39c7b0679321009e","/index.html":"0d99180d0b4d38e15b7ffe555bd55c1cf468a9053bfbf37954270fe35c4a6497","/assets/index-DkJof3id.js":"14886564b7ee46cb5c916855f5e37177c346f06d62fe925d61e25593e4df2d83"}}
+[debug] [2026-06-23T12:52:08.766Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/776059583001/sites/abdominalgym-kudus-gym/versions/916f74190edcdd8e:populateFiles 200
+[debug] [2026-06-23T12:52:08.767Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/776059583001/sites/abdominalgym-kudus-gym/versions/916f74190edcdd8e:populateFiles {"uploadUrl":"https://upload-firebasehosting.googleapis.com/upload/sites/abdominalgym-kudus-gym/versions/916f74190edcdd8e/files"}
+[debug] [2026-06-23T12:52:08.768Z] [hosting][populate queue][FINAL] {"max":775,"min":775,"avg":775,"active":0,"complete":1,"success":1,"errored":0,"retried":0,"total":1,"elapsed":775}
+[debug] [2026-06-23T12:52:08.769Z] [hosting] uploads queued: 0
+[debug] [2026-06-23T12:52:08.770Z] [hosting][upload queue][FINAL] {"max":0,"min":9999999999,"avg":0,"active":0,"complete":0,"success":0,"errored":0,"retried":0,"total":0,"elapsed":1782219128770}
+[info] i  hosting: upload complete 
+[info] +  hosting[abdominalgym-kudus-gym]: file upload complete 
+[debug] [2026-06-23T12:52:08.771Z] [hosting] deploy completed after 879ms
+[debug] [2026-06-23T12:52:08.772Z] [
+  {
+    "config": {
+      "target": "main",
+      "public": "dist",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ],
+      "site": "abdominalgym-kudus-gym"
+    },
+    "version": "projects/776059583001/sites/abdominalgym-kudus-gym/versions/916f74190edcdd8e"
+  }
+]
+[info] i  hosting[abdominalgym-kudus-gym]: finalizing version... 
+[debug] [2026-06-23T12:52:08.777Z] Checked if tokens are valid: true, expires at: 1782221961981
+[debug] [2026-06-23T12:52:08.777Z] Checked if tokens are valid: true, expires at: 1782221961981
+[debug] [2026-06-23T12:52:08.778Z] >>> [apiv2][query] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/abdominalgym-kudus-gym/versions/916f74190edcdd8e updateMask=status%2Cconfig
+[debug] [2026-06-23T12:52:08.780Z] >>> [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/abdominalgym-kudus-gym/versions/916f74190edcdd8e {"status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}]}}
+[debug] [2026-06-23T12:52:09.612Z] <<< [apiv2][status] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/abdominalgym-kudus-gym/versions/916f74190edcdd8e 200
+[debug] [2026-06-23T12:52:09.612Z] <<< [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/abdominalgym-kudus-gym/versions/916f74190edcdd8e {"name":"projects/776059583001/sites/abdominalgym-kudus-gym/versions/916f74190edcdd8e","status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2026-06-23T12:52:08.220276Z","createUser":{"email":"birgitacleosa2410@gmail.com"},"finalizeTime":"2026-06-23T12:52:10.391719Z","finalizeUser":{"email":"birgitacleosa2410@gmail.com"}}
+[debug] [2026-06-23T12:52:09.612Z] [hosting] finalized version for abdominalgym-kudus-gym:[object Object]
+[info] +  hosting[abdominalgym-kudus-gym]: version finalized 
+[info] i  hosting[abdominalgym-kudus-gym]: releasing new version... 
+[debug] [2026-06-23T12:52:09.613Z] Checked if tokens are valid: true, expires at: 1782221961981
+[debug] [2026-06-23T12:52:09.614Z] Checked if tokens are valid: true, expires at: 1782221961981
+[debug] [2026-06-23T12:52:09.615Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/abdominalgym-kudus-gym/channels/live/releases versionName=projects%2F776059583001%2Fsites%2Fabdominalgym-kudus-gym%2Fversions%2F916f74190edcdd8e
+[debug] [2026-06-23T12:52:09.615Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/abdominalgym-kudus-gym/channels/live/releases {}
+[debug] [2026-06-23T12:52:10.506Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/abdominalgym-kudus-gym/channels/live/releases 200
+[debug] [2026-06-25T12:32:54.976Z] ----------------------------------------------------------------------
+[debug] [2026-06-25T12:32:54.979Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\OSA\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only hosting --debug
+[debug] [2026-06-25T12:32:54.979Z] CLI Version:   15.22.1
+[debug] [2026-06-25T12:32:54.979Z] Platform:      win32
+[debug] [2026-06-25T12:32:54.979Z] Node Version:  v24.14.0
+[debug] [2026-06-25T12:32:54.979Z] Detected Agent: unknown
+[debug] [2026-06-25T12:32:54.980Z] Time:          Thu Jun 25 2026 19:32:54 GMT+0700 (Western Indonesia Time)
+[debug] [2026-06-25T12:32:54.980Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-06-25T12:32:54.982Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2026-06-25T12:33:01.033Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-06-25T12:33:01.035Z] > authorizing via signed-in user (birgitacleosa2410@gmail.com)
+[debug] [2026-06-25T12:33:01.035Z] [iam] checking project abdominalgym-ec32f for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2026-06-25T12:33:01.037Z] Checked if tokens are valid: false, expires at: 1782221961981
+[debug] [2026-06-25T12:33:01.038Z] Checked if tokens are valid: false, expires at: 1782221961981
+[debug] [2026-06-25T12:33:01.038Z] > refreshing access token with scopes: []
+[debug] [2026-06-25T12:33:01.040Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2026-06-25T12:33:01.041Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-06-25T12:33:05.223Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2026-06-25T12:33:05.224Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-06-25T12:33:05.235Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/abdominalgym-ec32f:testIamPermissions [none]
+[debug] [2026-06-25T12:33:05.236Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/abdominalgym-ec32f:testIamPermissions  x-goog-user-project=abdominalgym-ec32f
+[debug] [2026-06-25T12:33:05.236Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/abdominalgym-ec32f:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-06-25T12:33:05.846Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2026-06-25T12:33:05.846Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2026-06-25T12:33:18.262Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/abdominalgym-ec32f:testIamPermissions 200
+[debug] [2026-06-25T12:33:18.263Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/abdominalgym-ec32f:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-06-25T12:33:18.264Z] Checked if tokens are valid: true, expires at: 1782394384224
+[debug] [2026-06-25T12:33:18.265Z] Checked if tokens are valid: true, expires at: 1782394384224
+[debug] [2026-06-25T12:33:18.266Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/abdominalgym-ec32f [none]
+[debug] [2026-06-25T12:33:20.118Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/abdominalgym-ec32f 200
+[debug] [2026-06-25T12:33:20.119Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/abdominalgym-ec32f {"projectId":"abdominalgym-ec32f","projectNumber":"776059583001","displayName":"abdominalgym","name":"projects/abdominalgym-ec32f","resources":{"hostingSite":"abdominalgym-ec32f"},"state":"ACTIVE","etag":"1_d6734deb-f7fc-488c-bba3-0671f06e31e3"}
+[info] 
+[info] === Deploying to 'abdominalgym-ec32f'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2026-06-25T12:33:20.124Z] Checked if tokens are valid: true, expires at: 1782394384224
+[debug] [2026-06-25T12:33:20.124Z] Checked if tokens are valid: true, expires at: 1782394384224
+[debug] [2026-06-25T12:33:20.124Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/abdominalgym-ec32f/sites/abdominalgym-kudus-gym [none]
+[debug] [2026-06-25T12:33:27.441Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/abdominalgym-ec32f/sites/abdominalgym-kudus-gym 200
+[debug] [2026-06-25T12:33:27.444Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/abdominalgym-ec32f/sites/abdominalgym-kudus-gym {"name":"projects/abdominalgym-ec32f/sites/abdominalgym-kudus-gym","defaultUrl":"https://abdominalgym-kudus-gym.web.app","type":"USER_SITE"}
+[debug] [2026-06-25T12:33:27.446Z] Checked if tokens are valid: true, expires at: 1782394384224
+[debug] [2026-06-25T12:33:27.447Z] Checked if tokens are valid: true, expires at: 1782394384224
+[debug] [2026-06-25T12:33:27.447Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/abdominalgym-kudus-gym/versions [none]
+[debug] [2026-06-25T12:33:27.447Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/abdominalgym-kudus-gym/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2026-06-25T12:33:28.863Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/abdominalgym-kudus-gym/versions 200
+[debug] [2026-06-25T12:33:28.884Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/abdominalgym-kudus-gym/versions {"name":"projects/776059583001/sites/abdominalgym-kudus-gym/versions/25a717a571426cca","status":"CREATED","config":{},"labels":{"deployment-tool":"cli-firebase"}}
+[info] i  hosting[abdominalgym-kudus-gym]: beginning deploy... 
+[info] i  hosting[abdominalgym-kudus-gym]: found 32 files in dist 
+[debug] [2026-06-25T12:33:28.907Z] [hosting] uploading with 200 concurrency
+[debug] [2026-06-25T12:33:28.959Z] Checked if tokens are valid: true, expires at: 1782394384224
+[debug] [2026-06-25T12:33:28.960Z] Checked if tokens are valid: true, expires at: 1782394384224
+[debug] [2026-06-25T12:33:28.961Z] [hosting] hash cache [ZGlzdA] stored for 32 files
+[debug] [2026-06-25T12:33:28.963Z] [hosting][hash queue][FINAL] {"max":43,"min":1,"avg":3.09375,"active":0,"complete":32,"success":32,"errored":0,"retried":0,"total":32,"elapsed":51}
+[debug] [2026-06-25T12:33:28.963Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/776059583001/sites/abdominalgym-kudus-gym/versions/25a717a571426cca:populateFiles [none]
+[debug] [2026-06-25T12:33:28.966Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/776059583001/sites/abdominalgym-kudus-gym/versions/25a717a571426cca:populateFiles {"files":{"/qris.jpg":"631ea99257965aed43bd85914e120f9c5555d10abdfc6737df92882af809f42c","/logogym.png":"c85c19c20d90280b4475e44bd02e10280c1de4bc1c07c0867921d7a60569d397","/gym7.jpg":"42276209c0b88b4ae552be93d2a697fa81928d35d062ce26b33130209c1e1ff3","/gym6.jpg":"fcb810e97de55afb76eefa4cde7b03d09ac68a688c78f7f84dd49da977609e48","/gym5.jpg":"7067416c934cc31e25a462a6e57e34672bc93ca3f99b52ab116b6af738ae0b37","/gym4.jpg":"a30210f988be80c1ce0d06b77cc5876681b55504140e8264b71ff8ba23650ca6","/gym3.jpg":"cd823841744c5237a745c9ef4bb848f33b5acfe4538e8b586f75bd3303c87378","/gym2.jpg":"341c109aa895156b791bb8201cce1459ec7af82a87a8827104c5471846b98b07","/gym1.jpg":"6576d8e3165cb75b7e188dcab075e61c32016ab24c437d91b161a76b47cb0885","/gym.png":"5700d88a1fce790fe5fcbb5c390a23d7d03161ce8117e507472d4caf773ba14c","/gallery/lt3-5.jpg":"9475af5e39a5f5310b7c27336f849dd0a29802c52e7d1fa4ca467e3dc04a1769","/gallery/lt3-4.jpg":"5eaad130f6219787be437a0443caa1a69d0873455741f08608950f4b580b389d","/gallery/lt3-3.jpg":"ecc3c87513dcea536cdfc96a69710e25e0554f435d90da4d92ed842e93702a40","/gallery/lt3-2.jpg":"3411da01c4b5dcd8d9de3b4847a8f7c1faff3fac7226bd57ca64fd92f7226390","/gallery/lt3-1.jpg":"8851292990bca1067429631a38294fa4f77cba19b1b620811a90d7d8d69020eb","/gallery/lt2-9.jpg":"6affdc28c9ad14f56505c34b9e1d52481fd30a9062674b162ba748e1bfa6cbac","/gallery/lt2-8.jpg":"a05e499a6e05f130ec3a57578dcadb99afdb5cd827eb71a701539e553d0591eb","/gallery/lt2-7.jpg":"284a56e45c38a4b5a993231a454082668783703d121128d1e7dc44314f04f818","/gallery/lt2-6.jpg":"3995d0884196221bd0378ca3e230c1047b7ea1fe101b20af8e310ab5a1635db6","/gallery/lt2-5.jpg":"9d9f5273d5be74ecbf10dd7baacf972b3e7979bb55626b00552d141bec1dfb49","/gallery/lt2-4.jpg":"06781417b22f9c1a46be600625c39d5192f67709c479929f013338dcc42bc32c","/gallery/lt2-3.jpg":"98f96eca8a691ebb1da749e9ad88dcae4b387737b8520a3e2f733443ab962109","/gallery/lt2-2.jpg":"79d793e4d22a374810db05418b5135b1e4047959add669a7e2ef05bbd483c810","/gallery/lt2-1.jpg":"ec5f6992264357f3f447072228c0a1e8e93eae7701e7c80a2e2f80fd4e9308b9","/gallery/lt1-5.jpg":"d38a16bc5580d7df7887db6845a0c90aa78c60305977c3df93b3101601421bad","/gallery/lt1-4.jpg":"bac394ab350b24de85590acd9cf1fbac4faf771357b011905e11efdad0bd12df","/gallery/lt1-3.jpg":"4e0760e627ea2688ba45eef7069d55118092d553d1dff2e241b8d1f98d3286d7","/gallery/lt1-2.jpg":"b612ab29deea1a7a2209921a8f5188a77f996aa2088cdf89bfd0cd4b26d1f916","/gallery/lt1-1.jpg":"d5a5098a897f5e5ee6a3d98b20c4d2e82f762a3d8cca902ba5a52bc912ed611c","/index.html":"5d891733d9c4ca68c10088e14177f72e8bbac6f6241f5fb2411e1be9c140492d","/assets/index-BaIFvRX-.css":"f614af7fc281e46f695299dfcae6aa5fe58fedbd9635288b39c7b0679321009e","/assets/index-BsAq27qW.js":"12f3738a689384f98d0c34c065bfe071b38d59540426bc837c97f90a86c22aab"}}
+[debug] [2026-06-25T12:33:29.804Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/776059583001/sites/abdominalgym-kudus-gym/versions/25a717a571426cca:populateFiles 200
+[debug] [2026-06-25T12:33:29.805Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/776059583001/sites/abdominalgym-kudus-gym/versions/25a717a571426cca:populateFiles {"uploadRequiredHashes":["5d891733d9c4ca68c10088e14177f72e8bbac6f6241f5fb2411e1be9c140492d","12f3738a689384f98d0c34c065bfe071b38d59540426bc837c97f90a86c22aab"],"uploadUrl":"https://upload-firebasehosting.googleapis.com/upload/sites/abdominalgym-kudus-gym/versions/25a717a571426cca/files"}
+[debug] [2026-06-25T12:33:29.805Z] Checked if tokens are valid: true, expires at: 1782394384224
+[debug] [2026-06-25T12:33:29.805Z] Checked if tokens are valid: true, expires at: 1782394384224
+[debug] [2026-06-25T12:33:29.806Z] Checked if tokens are valid: true, expires at: 1782394384224
+[debug] [2026-06-25T12:33:29.806Z] Checked if tokens are valid: true, expires at: 1782394384224
+[debug] [2026-06-25T12:33:29.806Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/abdominalgym-kudus-gym/versions/25a717a571426cca/files/5d891733d9c4ca68c10088e14177f72e8bbac6f6241f5fb2411e1be9c140492d [none]
+[debug] [2026-06-25T12:33:29.806Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/abdominalgym-kudus-gym/versions/25a717a571426cca/files/5d891733d9c4ca68c10088e14177f72e8bbac6f6241f5fb2411e1be9c140492d [stream]
+[debug] [2026-06-25T12:33:29.807Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/abdominalgym-kudus-gym/versions/25a717a571426cca/files/12f3738a689384f98d0c34c065bfe071b38d59540426bc837c97f90a86c22aab [none]
+[debug] [2026-06-25T12:33:29.808Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/abdominalgym-kudus-gym/versions/25a717a571426cca/files/12f3738a689384f98d0c34c065bfe071b38d59540426bc837c97f90a86c22aab [stream]
+[debug] [2026-06-25T12:33:29.809Z] [hosting][populate queue][FINAL] {"max":847,"min":847,"avg":847,"active":0,"complete":1,"success":1,"errored":0,"retried":0,"total":1,"elapsed":850}
+[debug] [2026-06-25T12:33:29.809Z] [hosting] uploads queued: 2
+[info] i  hosting: uploading new files [0/2] (0%) 
+[info] i  hosting: uploading new files [0/2] (0%) 
+[info] i  hosting: uploading new files [0/2] (0%) 
+[info] i  hosting: uploading new files [0/2] (0%) 
+[info] i  hosting: uploading new files [0/2] (0%) 
+[debug] [2026-06-25T12:33:40.406Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/abdominalgym-kudus-gym/versions/25a717a571426cca/files/5d891733d9c4ca68c10088e14177f72e8bbac6f6241f5fb2411e1be9c140492d 200
+[debug] [2026-06-25T12:33:40.407Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/abdominalgym-kudus-gym/versions/25a717a571426cca/files/5d891733d9c4ca68c10088e14177f72e8bbac6f6241f5fb2411e1be9c140492d [stream]
+[info] i  hosting: uploading new files [1/2] (50%) 
+[info] i  hosting: uploading new files [1/2] (50%) 
+[info] i  hosting: uploading new files [1/2] (50%) 
+[info] i  hosting: uploading new files [1/2] (50%) 
+[info] i  hosting: uploading new files [1/2] (50%) 
+[info] i  hosting: uploading new files [1/2] (50%) 
+[info] i  hosting: uploading new files [1/2] (50%) 
+[info] i  hosting: uploading new files [1/2] (50%) 
+[info] i  hosting: uploading new files [1/2] (50%) 
+[info] i  hosting: uploading new files [1/2] (50%) 
+[debug] [2026-06-25T12:34:00.244Z] [uploadQueue] Retrying task 12f3738a689384f98d0c34c065bfe071b38d59540426bc837c97f90a86c22aab
+[debug] [2026-06-25T12:34:00.245Z] Checked if tokens are valid: true, expires at: 1782394384224
+[debug] [2026-06-25T12:34:00.245Z] Checked if tokens are valid: true, expires at: 1782394384224
+[debug] [2026-06-25T12:34:00.247Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/abdominalgym-kudus-gym/versions/25a717a571426cca/files/12f3738a689384f98d0c34c065bfe071b38d59540426bc837c97f90a86c22aab [none]
+[debug] [2026-06-25T12:34:00.248Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/abdominalgym-kudus-gym/versions/25a717a571426cca/files/12f3738a689384f98d0c34c065bfe071b38d59540426bc837c97f90a86c22aab [stream]
+[info] i  hosting: uploading new files [1/2] (50%) 
+[info] i  hosting: uploading new files [1/2] (50%) 
+[info] i  hosting: uploading new files [1/2] (50%) 
+[info] i  hosting: uploading new files [1/2] (50%) 
+[info] i  hosting: uploading new files [1/2] (50%) 
+[debug] [2026-06-25T12:34:10.217Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/abdominalgym-kudus-gym/versions/25a717a571426cca/files/12f3738a689384f98d0c34c065bfe071b38d59540426bc837c97f90a86c22aab 200
+[debug] [2026-06-25T12:34:10.218Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/abdominalgym-kudus-gym/versions/25a717a571426cca/files/12f3738a689384f98d0c34c065bfe071b38d59540426bc837c97f90a86c22aab [stream]
+[debug] [2026-06-25T12:34:10.219Z] [hosting][upload queue][FINAL] {"max":10602,"min":9975,"avg":10288.5,"active":0,"complete":2,"success":2,"errored":0,"retried":1,"total":2,"elapsed":40414}
+[info] i  hosting: upload complete 
+[info] +  hosting[abdominalgym-kudus-gym]: file upload complete 
+[debug] [2026-06-25T12:34:10.220Z] [hosting] deploy completed after 41334ms
+[debug] [2026-06-25T12:34:10.220Z] [
+  {
+    "config": {
+      "target": "main",
+      "public": "dist",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ],
+      "site": "abdominalgym-kudus-gym"
+    },
+    "version": "projects/776059583001/sites/abdominalgym-kudus-gym/versions/25a717a571426cca"
+  }
+]
+[info] i  hosting[abdominalgym-kudus-gym]: finalizing version... 
+[debug] [2026-06-25T12:34:10.224Z] Checked if tokens are valid: true, expires at: 1782394384224
+[debug] [2026-06-25T12:34:10.224Z] Checked if tokens are valid: true, expires at: 1782394384224
+[debug] [2026-06-25T12:34:10.227Z] >>> [apiv2][query] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/abdominalgym-kudus-gym/versions/25a717a571426cca updateMask=status%2Cconfig
+[debug] [2026-06-25T12:34:10.227Z] >>> [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/abdominalgym-kudus-gym/versions/25a717a571426cca {"status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}]}}
+[debug] [2026-06-25T12:34:11.483Z] <<< [apiv2][status] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/abdominalgym-kudus-gym/versions/25a717a571426cca 200
+[debug] [2026-06-25T12:34:11.483Z] <<< [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/abdominalgym-kudus-gym/versions/25a717a571426cca {"name":"projects/776059583001/sites/abdominalgym-kudus-gym/versions/25a717a571426cca","status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2026-06-25T12:33:28.742343Z","createUser":{"email":"birgitacleosa2410@gmail.com"},"finalizeTime":"2026-06-25T12:34:12.140222Z","finalizeUser":{"email":"birgitacleosa2410@gmail.com"}}
+[debug] [2026-06-25T12:34:11.484Z] [hosting] finalized version for abdominalgym-kudus-gym:[object Object]
+[info] +  hosting[abdominalgym-kudus-gym]: version finalized 
+[info] i  hosting[abdominalgym-kudus-gym]: releasing new version... 
+[debug] [2026-06-25T12:34:11.486Z] Checked if tokens are valid: true, expires at: 1782394384224
+[debug] [2026-06-25T12:34:11.486Z] Checked if tokens are valid: true, expires at: 1782394384224
+[debug] [2026-06-25T12:34:11.487Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/abdominalgym-kudus-gym/channels/live/releases versionName=projects%2F776059583001%2Fsites%2Fabdominalgym-kudus-gym%2Fversions%2F25a717a571426cca
+[debug] [2026-06-25T12:34:11.487Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/abdominalgym-kudus-gym/channels/live/releases {}
+[debug] [2026-06-25T12:34:14.019Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/abdominalgym-kudus-gym/channels/live/releases 200

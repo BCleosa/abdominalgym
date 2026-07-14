@@ -47,7 +47,11 @@ export default function AdminDashboard() {
         );
 
         setRecentKeuangan(
-          keu.sort((a, b) => b.tanggal?.localeCompare(a.tanggal)).slice(0, 5)
+          keu.sort((a, b) => {
+            const ta = a.createdAt || a.tanggal || "";
+            const tb = b.createdAt || b.tanggal || "";
+            return tb.localeCompare(ta);
+          }).slice(0, 8)
         );
       } catch (err) {
         console.error("Error fetching dashboard data:", err);
@@ -55,6 +59,8 @@ export default function AdminDashboard() {
       setLoading(false);
     };
     fetchAll();
+    const interval = setInterval(fetchAll, 60000);
+    return () => clearInterval(interval);
   }, []);
 
   const statCards = [
@@ -130,12 +136,19 @@ export default function AdminDashboard() {
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {recentKeuangan.map((k, i) => (
-                <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 0", borderBottom: "1px solid #1a1a1a" }}>
+                <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 0", borderBottom: "1px solid #e0e0e0" }}>
                   <div style={{ flex: 1 }}>
                     <div style={{ fontFamily: "var(--font-body)", fontSize: "0.825rem", color: "#1a1a1a", fontWeight: 500 }}>{k.keterangan}</div>
-                    <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.6rem", color: "#555", marginTop: 2 }}>{k.kategori} · {k.tanggal}</div>
+                    <div style={{ display: "flex", gap: 6, marginTop: 3, alignItems: "center", flexWrap: "wrap" }}>
+                      <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.6rem", color: "#555" }}>{k.kategori} · {k.tanggal}</span>
+                      {k.metode && (
+                        <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.58rem", padding: "1px 6px", background: k.metode === "QRIS" ? "#f3e5f5" : k.metode === "Transfer" ? "#e3f2fd" : "#e8f5e9", color: k.metode === "QRIS" ? "#7b1fa2" : k.metode === "Transfer" ? "#1565c0" : "#2e7d32" }}>
+                          {k.metode}
+                        </span>
+                      )}
+                    </div>
                   </div>
-                  <div style={{ fontFamily: "var(--font-mono)", fontWeight: 600, fontSize: "0.875rem", color: k.tipe === "pemasukan" ? "#4caf50" : "#f44336", marginLeft: 12, flexShrink: 0 }}>
+                  <div style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: "0.875rem", color: k.tipe === "pemasukan" ? "#4caf50" : "#f44336", marginLeft: 12, flexShrink: 0 }}>
                     {k.tipe === "pemasukan" ? "+" : "-"}{fmt(k.jumlah)}
                   </div>
                 </div>

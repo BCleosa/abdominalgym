@@ -26,7 +26,7 @@ export default function MemberList() {
   const [requestForm, setRequestForm] = useState({ tanggal: new Date().toISOString().split("T")[0] });
   const [requestLoading, setRequestLoading] = useState(false);
   const [requestError, setRequestError] = useState("");
-
+  const [riwayatDismissed, setRiwayatDismissed] = useState(false);
   const fetchData = async () => {
     try {
       const [res, pend] = await Promise.all([
@@ -103,11 +103,10 @@ export default function MemberList() {
   return (
     <div style={{ paddingBottom: 80 }}>
       {pendingCount > 0 && (
-        <div style={{ background: "#fff8e1", border: "1px solid #ffe082", padding: "10px 16px", marginBottom: 10, fontSize: "0.8rem", color: "#f57f17", fontFamily: "var(--font-mono)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <span>⏳ {pendingCount} sesi menunggu persetujuan admin</span>
+        <div style={{ background: "#fff8e1", border: "1px solid #ffe082", padding: "10px 16px", marginBottom: 10, fontSize: "0.8rem", color: "#f57f17", fontFamily: "var(--font-mono)" }}>
+          ⏳ {pendingCount} sesi menunggu persetujuan admin
         </div>
       )}
-
       {!bannerDismissed && (habisCount > 0 || hampirCount > 0) && (
         <div style={{ background: habisCount > 0 ? "#fff5f5" : "#fffde7", border: `1px solid ${habisCount > 0 ? "#ffcdd2" : "#fff59d"}`, padding: "10px 16px", marginBottom: 10, fontSize: "0.8rem", color: habisCount > 0 ? "#c62828" : "#f57f17", fontFamily: "var(--font-mono)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <span>
@@ -139,9 +138,12 @@ export default function MemberList() {
         <button onClick={handleExport} style={{ background: "#fff", border: "1px solid #ddd", color: "#555", fontFamily: "var(--font-mono)", fontSize: "0.65rem", padding: "6px 14px", cursor: "pointer" }}>Export Excel</button>
       </div>
 
-      {pending.length > 0 && filterStatus === "semua" && !search && (
-        <div style={{ background: "#fff", border: "1px solid #e0e0e0", padding: 14, marginBottom: 14 }}>
-          <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.62rem", textTransform: "uppercase", letterSpacing: "0.1em", color: "#888", marginBottom: 10 }}>Riwayat Pengajuan Sesi</div>
+      {pending.length > 0 && filterStatus === "semua" && !search && !riwayatDismissed && (
+      <div style={{ background: "#fff", border: "1px solid #e0e0e0", padding: 14, marginBottom: 14 }}>
+        <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.62rem", textTransform: "uppercase", letterSpacing: "0.1em", color: "#888", marginBottom: 10, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <span>Riwayat Pengajuan Sesi</span>
+          <button onClick={() => setRiwayatDismissed(true)} style={{ background: "none", border: "none", color: "#aaa", cursor: "pointer", fontSize: "0.9rem", padding: "0 4px" }}>✕</button>
+        </div>
           {pending.slice(0, 5).map(p => (
             <div key={p.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 0", borderBottom: "1px solid #f5f5f5", fontSize: "0.8rem" }}>
               <div>
@@ -167,7 +169,7 @@ export default function MemberList() {
         const memberPending = pending.filter(p => p.member === m.member && p.status === "pending");
 
         return (
-          <div key={m.member} style={{ background: "#fff", border: "1px solid #e0e0e0", borderLeft: `4px solid ${accentColor}`, marginBottom: 10, opacity: m.habis ? 0.75 : 1 }}>
+          <div key={m.member} style={{ background: "#fff", border: "1px solid #e0e0e0", borderLeft: `4px solid ${accentColor}`, marginBottom: 10, opacity: m.habis ? 0.85 : 1 }}>
             <div style={{ display: "flex", alignItems: "center", padding: "14px 16px 0" }}>
               <button onClick={() => { setExpanded(isExpanded ? null : m.member); if (!isExpanded && programData[m.member] === undefined) loadProgram(m.member); }}
                 style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "space-between", background: "none", border: "none", cursor: "pointer", textAlign: "left", padding: 0 }}>
@@ -185,12 +187,16 @@ export default function MemberList() {
                   <span style={{ color: "#aaa", fontSize: "0.7rem" }}>{isExpanded ? "▲" : "▼"}</span>
                 </div>
               </button>
-
               {!m.habis && memberPending.length === 0 && (
                 <button onClick={() => { setRequestModal(m); setRequestForm({ tanggal: new Date().toISOString().split("T")[0] }); setRequestError(""); }}
                   style={{ marginLeft: 12, background: "#2e7d32", color: "#fff", border: "none", fontFamily: "var(--font-body)", fontWeight: 700, fontSize: "0.75rem", padding: "8px 14px", cursor: "pointer", whiteSpace: "nowrap", flexShrink: 0 }}>
                   ✓ Ajukan Sesi
                 </button>
+              )}
+              {m.habis && (
+                <span style={{ marginLeft: 12, fontFamily: "var(--font-mono)", fontSize: "0.6rem", color: "#aaa", padding: "8px 10px", border: "1px solid #e0e0e0", whiteSpace: "nowrap", flexShrink: 0 }}>
+                  Hubungi Admin
+                </span>
               )}
             </div>
 
@@ -221,14 +227,14 @@ export default function MemberList() {
                           const dayB = db2.getDay() === 0 ? 7 : db2.getDay();
                           return dayA - dayB || a.tanggal.localeCompare(b.tanggal);
                         }).map((s, i) => (
-                          <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+                          <div key={i} style={{ display: "flex", gap: 12, alignItems: "center" }}>
                             <div style={{ width: 24, height: 24, minWidth: 24, background: "#e8f5e9", border: "1px solid #a5d6a7", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-mono)", fontSize: "0.6rem", color: "#2e7d32", fontWeight: 700 }}>{i + 1}</div>
                             <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.7rem", color: "#888" }}>{formatTgl(s.tanggal)}</div>
                           </div>
                         ))}
                       </div>
                     )}
-                    {m.habis && <div style={{ marginTop: 12, padding: "10px 14px", background: "#fff5f5", border: "1px solid #ffcdd2", fontSize: "0.8rem", color: "#c62828" }}>⚠ Paket habis — ingatkan member untuk perpanjang lewat Admin.</div>}
+                    {m.habis && <div style={{ marginTop: 12, padding: "10px 14px", background: "#fff5f5", border: "1px solid #ffcdd2", fontSize: "0.8rem", color: "#c62828" }}>⚠ Paket habis — hubungi Admin untuk perpanjang.</div>}
                   </div>
                 )}
 
@@ -249,7 +255,7 @@ export default function MemberList() {
                             {programLoading[m.member] ? "Menyimpan..." : "Simpan Program"}
                           </button>
                         </div>
-                        {programData[m.member]?.saved && programData[m.member]?.saved === programData[m.member]?.content && (
+                        {programData[m.member]?.saved === programData[m.member]?.content && programData[m.member]?.saved && (
                           <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.6rem", color: "#2e7d32", marginTop: 4 }}>✓ Tersimpan</p>
                         )}
                       </>
@@ -262,7 +268,6 @@ export default function MemberList() {
         );
       })}
 
-      {/* Modal Ajukan Sesi */}
       {requestModal && (
         <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 1000, display: "flex", alignItems: "flex-end", justifyContent: "center" }}
           onClick={e => { if (e.target === e.currentTarget) setRequestModal(null); }}>
